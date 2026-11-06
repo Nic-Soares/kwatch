@@ -1,0 +1,96 @@
+name: build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  origem:
+    name: origem do PR para main
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR para main deve vir de develop
+        env:
+          ORIGEM: ${{ github.head_ref }}
+        run: |
+          if [ "$ORIGEM" != "develop" ]; then
+            echo "PR para main so pode vir de develop (veio de $ORIGEM)."
+            exit 1
+          fi
+
+  sonda:
+    name: sonda do comando oficial
+    runs-on: windows-latest
+    steps:
+      - name: Versao do gcc
+        shell: cmd
+        run: |
+          where gcc
+          gcc --version
+      - name: Criar projetos minimos de sonda
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory sonda\com_h, sonda\sem_h | Out-Null
+          Set-Content sonda\com_h\main.c "#include `"k.h`"`nint main(void) { return f(); }"
+          Set-Content sonda\com_h\f.c "int f(void) { return 0; }"
+          Set-Content sonda\com_h\k.h "int f(void);"
+          Set-Content sonda\sem_h\main.c "int f(void);`nint main(void) { return f(); }"
+          Set-Content sonda\sem_h\f.c "int f(void) { return 0; }"
+      - name: Variante com arquivo .h
+        id: com_h
+        continue-on-error: true
+        shell: cmd
+        working-directory: sonda\com_h
+        run: gcc -o main.exe *.c *.h && main.exe
+      - name: Variante sem arquivo .h
+        id: sem_h
+        continue-on-error: true
+        shell: cmd
+        working-directory: sonda\sem_h
+        run: gcc -o main.exe *.c *.h && main.exe
+      - name: Resumo
+        shell: pwsh
+        run: |
+          "## Sonda de ``gcc -o main.exe *.c *.h``" >> $env:GITHUB_STEP_SUMMARY
+          "| Variante | Resultado |" >> $env:GITHUB_STEP_SUMMARY
+          "|---|---|" >> $env:GITHUB_STEP_SUMMARY
+          "| com .h | ${{ steps.com_h.outcome }} |" >> $env:GITHUB_STEP_SUMMARY
+          "| sem .h | ${{ steps.sem_h.outcome }} |" >> $env:GITHUB_STEP_SUMMARY
+
+  build:
+    name: build com o comando oficial
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compilar com gcc -o main.exe *.c *.h
+        shell: cmd
+        run: |
+          if not exist *.c (
+            echo Ainda nao ha arquivos .c na raiz, nada para compilar.
+            exit /b 0
+          )
+          gcc -o main.exe *.c *.h
+      - name: Teste de fumaca (menu pela entrada padrao)
+        if: hashFiles('main.exe') != ''
+        timeout-minutes: 1
+        shell: cmd
+        run: |
+          copy tests\pdf\leituras.txt . >nul
+          copy tests\pdf\unidades.csv . >nul
+          main.exe < tests\fumaca.txt > saida.txt
+          set RC=%ERRORLEVEL%
+          type saida.txt
+          exit /b %RC%
+      - name: Conferir mensagem de encerramento
+        if: hashFiles('main.exe') != ''
+        # Fica obrigatorio quando a variavel do repositorio FUMACA_ESTRITA = true (ligar ao concluir o menu).
+        continue-on-error: ${{ vars.FUMACA_ESTRITA != 'true' }}
+        shell: cmd
+        run: findstr /C:"Opcao invalida. Tente novamente." saida.txt && findstr /C:"Encerrando o programa." saida.txt

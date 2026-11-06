@@ -1,0 +1,28 @@
+# Executáveis e artefatos de compilação
+*.exe
+*.o
+*.obj
+*.gch
+*.pch
+*.out
+*.dSYM/
+main
+Output/
+build/
+
+# Cópias locais dos dados de teste (originais em tests/)
+/leituras.txt
+/unidades.csv
+saida*.txt
+
+# Pacote de entrega gerado localmente
+/entrega/
+*.zip
+
+# Editores e sistema
+.vscode/
+.idea/
+*.layout
+*.dev
+.DS_Store
+Thumbs.db
