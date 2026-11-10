@@ -49,7 +49,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
   - [ ] Sem rodar código, escrever a saída esperada, com a conta de onde vem cada número, para: opção 2 com ID 3 e com ID 99; opção 3 com unidade 101 e 999; opção 4 de 01/2026 a 02/2026, de 13/2026 a 02/2026 e de 03/2026 a 01/2026; opção 5. Conferir com os casos 14, 17, 18, 19, 22, 24, 26 e 27
   - [ ] Opção 5 com os dados de `tests/borda`: tabela de soma por unidade e o desempate pelo menor ID (caso 28)
   - [ ] Com a tabela do exemplo, mostrar o que dá errado se a ordenação trocar só o `ids` (R-24)
-  - [ ] Fazer a busca binária do ID 2 em `1, 3, 2, 4, 5` (ordem do arquivo) e mostrar por que ela falha sem ordenar antes (R-23, R-58)
+  - [ ] Fazer a busca binária do ID 3 em `1, 3, 2, 4, 5` (ordem do arquivo) e mostrar por que ela falha sem ordenar antes (R-23, R-58)
 - [ ] **T00c** Mapa das 12 funções (1 h, Sprint 1). PDF p4 a p11.
   - [ ] Tabela Função | Arquivo | Opção do menu que usa | O que entra | O que devolve | Em uma frase, para as 12 funções
   - [ ] Quando cada função devolve um valor especial: `-1` nas cargas e nas buscas; empate em `encontrarUnidadeMaiorConsumo`

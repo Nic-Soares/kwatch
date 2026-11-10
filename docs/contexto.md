@@ -107,3 +107,269 @@ Biblioteca Central
 > O PDF declara `char descricoes[MAX][50];` (p3) e diz que a descrição tem "até 49 caracteres" (p5). Em C, todo texto termina com um caractere a mais, o `'\0'`, que marca onde o texto acaba. Exemplo: "Bloco" tem 5 letras e ocupa 6 posições (5 letras + o `'\0'`).
 
 Porque em C as coisas começar com indece 0 a n - 1, nesse caso de 0 a 49, de 0 a 48 dá 49 chars, e apois isso 49 fica como  '\0', e toda string preciso disso pra dizer "esse texto acaba aqui"
+
+## T00b · Resolver o menu na mão (PDF p12 a p15)
+
+> Sem rodar código: para cada opção do menu, escrever a saída que o programa mostra na tela, com a conta de onde vem cada número. A saída tem que ser **igual** à do PDF, letra por letra (o consumo sempre com 2 casas: `310.20`).
+>
+> Dados de todos os itens, salvo onde estiver escrito outro: o exemplo do PDF p2, na ordem do arquivo.
+>
+> | i | ids[i] | unidadeIds[i] | meses[i] | anos[i] | consumos[i] |
+> |---|---|---|---|---|---|
+> | 0 | 1 | 101 | 1 | 2026 | 245.5 |
+> | 1 | 3 | 101 | 2 | 2026 | 310.2 |
+> | 2 | 2 | 203 | 1 | 2026 | 185.7 |
+> | 3 | 4 | 150 | 2 | 2026 | 420.0 |
+> | 4 | 5 | 203 | 2 | 2026 | 205.8 |
+>
+> | j | unidadeIdsCatalogo[j] | descricoes[j] |
+> |---|---|---|
+> | 0 | 101 | Laboratorio de Informatica |
+> | 1 | 203 | Biblioteca Central |
+> | 2 | 150 | Bloco Administrativo |
+
+### 1. Opção 2: buscar leitura por ID
+
+> O usuário digita um ID. O programa procura esse ID em `ids` e, se achar, mostra todos os dados da leitura (PDF p13 e p14). A descrição vem do catálogo: pega o `unidadeIds[i]` da leitura e procura no `unidadeIdsCatalogo`.
+>
+> Modelo pronto, com o ID 3 (é o exemplo do próprio PDF):
+>
+> - Em que posição está o ID 3? Na posição 1, porque `ids[1]` = 3.
+> - Saída:
+>
+> ```
+> Leitura encontrada:
+> ID Leitura: 3
+> Unidade: 101
+> Descricao: Laboratorio de Informatica
+> Mes: 2
+> Ano: 2026
+> Consumo: 310.20 kWh
+> ```
+>
+> Se o ID não existir, o PDF p14 mostra: `Leiura nao encontrada.` (assim mesmo, com "Leiura"; é a dúvida D5. Até o professor responder, vale o texto do PDF.)
+
+**a) ID 5**
+
+Em que posição está o ID 5? Na posição 4, porque ids[4] = 5
+
+Saída:
+
+```
+Leitura encontrada:
+ID Leitura: 5
+Unidade: 203
+Descricao: Biblioteca Central
+Mes: 2
+Ano: 2026
+Consumo: 205.80 kWh
+```
+
+**b) ID 99**
+
+Saída:
+
+```
+Leiura nao encontrada.
+```
+
+### 2. Opção 3: consumo de uma unidade
+
+> O usuário digita o ID de uma unidade. Se ela não estiver no catálogo, o programa mostra `Unidade nao encontrada.` Se estiver, soma o `consumos[i]` de todas as leituras com `unidadeIds[i]` igual a esse ID (PDF p14).
+>
+> Modelo pronto, com a unidade 101 (exemplo do PDF p14):
+>
+> - Quais posições têm `unidadeIds[i]` = 101? As posições 0 e 1.
+> - Conta: 245.5 + 310.2 = 555.7
+> - Saída:
+>
+> ```
+> Consumo da unidade:
+> Unidade: 101
+> Descricao: Laboratorio de Informatica
+> Consumo total: 555.70 kWh
+> ```
+
+**a) Unidade 150**
+
+Quais posições têm `unidadeIds[i]` = 150? Apenas 3.
+
+Conta: 420.0
+
+Saída:
+
+```
+Consumo da unidade:
+Unidade: 150
+Descricao: Bloco Administrativo
+Consumo total: 420.00 kWh
+```
+
+**b) Unidade 999**
+
+Saída:
+
+```
+Unidade nao encontrada.
+```
+
+### 3. Opção 4: consumo em um período
+
+> O usuário digita mês e ano inicial e mês e ano final. O programa soma o `consumos[i]` de **todas** as leituras cujo mês/ano está dentro do período, inclusive o mês inicial e o final (PDF p15).
+>
+> O período é inválido, e o programa mostra só `Periodo invalido.`, quando (PDF p15):
+> - algum mês está fora de 1 a 12; ou
+> - o início é depois do fim.
+>
+> Modelo pronto, de 01/2026 até 02/2026 (exemplo do PDF p15):
+>
+> - Válido? Sim: meses 1 e 2 estão entre 1 e 12, e 01/2026 vem antes de 02/2026.
+> - Quais posições estão no período? Todas (0 a 4): todas são de 1/2026 ou 2/2026.
+> - Conta: 245.5 + 310.2 + 185.7 + 420.0 + 205.8 = 1367.2
+> - Saída:
+>
+> ```
+> Consumo no periodo:
+> Periodo: 01/2026 ate 02/2026
+> Consumo total: 1367.20 kWh
+> ```
+
+**a) De 02/2026 até 02/2026**
+
+Válido? Sim: Esta selecionando apenas 1 mês
+
+Quais posições estão no período? Posições 1, 3 e 4, todas são de 02/2026
+
+Conta: 310.2 + 420.0 + 205.8 = 936.00
+
+Saída:
+
+```
+Consumo no periodo:
+Periodo: 02/2026 ate 02/2026
+Consumo total: 936.00 kWh
+```
+
+**b) De 13/2026 até 02/2026**
+
+Válido? Por quê? Não, não existe mês 13.
+
+Saída:
+
+```
+Periodo invalido.
+```
+
+**c) De 03/2026 até 01/2026**
+
+Válido? Por quê? Não, pois o inicio em março de 2026, fim em janeiro de 2026: março vem depois de janeiro, isso atende a regra de reprovação: O início é depois do fim.
+
+Saída:
+
+```
+Periodo invalido.
+```
+
+### 4. Opção 5: unidade com maior consumo
+
+> O programa soma o consumo de cada unidade e mostra a que tem o maior total. Se duas empatarem, vale a de **menor ID** (PDF p11 e p15).
+>
+> Modelo pronto, com os dados do PDF:
+>
+> | Unidade | Posições | Conta | Total |
+> |---|---|---|---|
+> | 101 | 0 e 1 | 245.5 + 310.2 | 555.7 |
+> | 203 | 2 e 4 | 185.7 + 205.8 | 391.5 |
+> | 150 | 3 | 420.0 | 420.0 |
+>
+> Maior: 101. Saída (PDF p15):
+>
+> ```
+> Unidade com maior consumo:
+> Unidade: 101
+> Descricao: Laboratorio de Informatica
+> Consumo total: 555.70 kWh
+> ```
+>
+> Agora com **outros dados**, os de `tests/borda`:
+>
+> | i | ids[i] | unidadeIds[i] | meses[i] | anos[i] | consumos[i] |
+> |---|---|---|---|---|---|
+> | 0 | 7 | 300 | 12 | 2025 | 100.0 |
+> | 1 | 2 | 301 | 1 | 2026 | 50.5 |
+> | 2 | 9 | 300 | 1 | 2026 | 25.0 |
+> | 3 | 1 | 301 | 12 | 2025 | 74.5 |
+> | 4 | 5 | 302 | 2 | 2026 | 0.0 |
+>
+> | j | unidadeIdsCatalogo[j] | descricoes[j] |
+> |---|---|---|
+> | 0 | 301 | Sala de Aula 12 |
+> | 1 | 300 | Laboratorio de Redes |
+> | 2 | 302 | Auditorio |
+> | 3 | 303 | Unidade Sem Leituras Cadastrada Para Teste De Lim |
+
+| Unidade | Posições | Conta | Total |
+|---|---|---|---|
+| 300 | 0 e 2 | 100.0 + 25.0 | 125.00 |
+| 301 | 1 e 3 | 50.5 + 74.5 | 125.00 |
+| 302 | 4 | 0.00 | 0.00 |
+
+Houve empate? Entre quais? Qual vence e por quê? Sim, houve. Porque o total das unidades 300 e 301 ficaram iguais.
+
+1. entre quais unidades houve empate: 300 e 301
+2. qual vence: o 300
+3. por quê: 300 é menor que 301
+
+Saída:
+
+```
+Unidade com maior consumo:
+Unidade: 300
+Descricao: Laboratorio de Redes
+Consumo total: 125.00 kWh
+```
+
+### 5. Ordenar trocando só o `ids`
+
+> Ordenar por ID tem que mover a leitura inteira: as 5 colunas da mesma linha juntas (PDF p7 e p13). Este item mostra o que acontece se a ordenação mover só a coluna `ids`.
+>
+> Se só o `ids` fosse ordenado, a tabela do exemplo do PDF ficaria assim (as outras 4 colunas continuam na ordem do arquivo):
+>
+> | i | ids[i] | unidadeIds[i] | meses[i] | anos[i] | consumos[i] |
+> |---|---|---|---|---|---|
+> | 0 | 1 | 101 | 1 | 2026 | 245.5 |
+> | 1 | 2 | 101 | 2 | 2026 | 310.2 |
+> | 2 | 3 | 203 | 1 | 2026 | 185.7 |
+> | 3 | 4 | 150 | 2 | 2026 | 420.0 |
+> | 4 | 5 | 203 | 2 | 2026 | 205.8 |
+
+Com essa tabela, a busca do ID 2 acha qual posição? 1
+
+Que unidade e que consumo o programa mostraria para o ID 2? Unidade: 101, Consumo: 310.2.
+
+Qual é a unidade e o consumo verdadeiros da leitura 2 (no arquivo: `2 203 1 2026 185.7`)? Unidade: 203, Consumo: 185.7
+
+### 6. Busca binária sem ordenar antes
+
+> A busca binária olha o meio, compara e descarta a metade onde o ID não pode estar. Isso só funciona se `ids` estiver em ordem crescente (PDF p6). Por isso, na opção 2, se o usuário escolher a binária e as leituras ainda não foram ordenadas, o programa ordena antes (PDF p13).
+>
+> Este item mostra a binária procurando o **ID 3** em `ids` na ordem do arquivo, sem ordenar:
+>
+> | i | 0 | 1 | 2 | 3 | 4 |
+> |---|---|---|---|---|---|
+> | ids[i] | 1 | 3 | 2 | 4 | 5 |
+>
+> Regras de cada volta: `meio = (inicio + fim) / 2` (divisão inteira); se `ids[meio]` = 3, achou; se `ids[meio]` for menor que 3, `inicio = meio + 1`; se for maior, `fim = meio - 1`; para quando `inicio` passa de `fim`.
+>
+> A 1ª volta já está preenchida como modelo.
+
+Volta | inicio | fim | meio | ids[meio] | Comparação com 3 | O que faz
+|-----|--------|-----|------|-----------|------------------|----------|
+1 | 0 | 4 | 2 | 2 | 2 é menor que 3 | inicio = 3
+2 | 3 | 4 | 3 | 4 | 4 é maior que 3 | fim = 2
+
+Depois da volta 2, a busca faz uma 3ª volta? Por quê? (olhe `inicio` e `fim`) Não, porque inicio (3) passou de fim (2) após a atualização da segunda volta, tornando a condição de continuação falsa.
+
+A busca achou o ID 3? Não (o algoritmo encerrou sem encontrar).
+
+Em que posição o ID 3 está de verdade? 1 (pois ids[1] = 3).
