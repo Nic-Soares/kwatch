@@ -24,7 +24,7 @@ Planejamento do Projeto 2 (Sistema de Análise de Consumo de Energia), turma 02P
 
 ## Tarefas
 
-Estimativa total: **47 h** para 1 pessoa (cerca de 4 h por dia de 06/11 a 18/11). Cada tarefa vira uma branch `feat/Txx-descricao` e um PR para `develop` (ver [`CONTRIBUTING.md`](../CONTRIBUTING.md)).
+Estimativa total: **50,5 h** para 1 pessoa (cerca de 4 h por dia de 06/11 a 18/11). Cada tarefa vira uma branch `feat/Txx-descricao` e um PR para `develop` (ver [`CONTRIBUTING.md`](../CONTRIBUTING.md)).
 
 Critério de pronto de toda tarefa: compila com o comando oficial (CI verde), testada com os casos indicados de [`tests/casos.md`](../tests/casos.md), saída idêntica à do PDF quando houver saída, checklist de revisão do CONTRIBUTING conferido.
 
@@ -32,6 +32,31 @@ Critério de pronto de toda tarefa: compila com o comando oficial (CI verde), te
 
 - [x] **T00** Repositório, CI no Windows e dados de teste. R-01, R-76, R-77, R-78, R-80, R-87, R-95.
   O CI confirmou que, com GCC 15.2 (MinGW) no Windows, `gcc -o main.exe *.c *.h` funciona com um `.h` e **falha sem `.h`** (`cc1.exe: fatal error: *.h: Invalid argument`). Por isso o projeto tem `kwatch.h` (dúvida D2).
+
+### Contexto do projeto (antes do código)
+
+Entender o problema antes de programar: o que o sistema resolve, como são os dados e o que cada função e cada opção do menu responde. Estas tarefas não têm código. A entrega é o arquivo `docs/contexto.md`, **escrito com as próprias palavras** (sem copiar do PDF nem do chat), uma seção por tarefa.
+
+Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tests/casos.md`, todas certas; uma resposta errada é corrigida e refeita sem consulta. Branch `docs/T00a-contexto` (uma só para as três) e PR para `develop`.
+
+- [ ] **T00a** Entender o problema e os dados (1 h, Sprint 1). PDF p1 a p3. R-02, R-03, R-04, R-05, R-06, R-07, R-08, R-10.
+  - [ ] Em uma frase: o que o sistema faz e que perguntas ele responde (p1)
+  - [ ] O que é uma leitura e o que é uma unidade; como o `unidade_id` liga `leituras.txt` a `unidades.csv` (p2)
+  - [ ] Por que `unidades.csv` separa por `;` e `leituras.txt` por espaço (p2)
+  - [ ] Montar na mão as tabelas `i | ids[i] | unidadeIds[i] | meses[i] | anos[i] | consumos[i]` e `j | unidadeIdsCatalogo[j] | descricoes[j]` com o exemplo da p2, na ordem do arquivo (p3)
+  - [ ] Pela tabela, posição × valor: em que posição está a leitura de ID 3? Qual é a descrição da unidade da leitura na posição 4? Por que `descricoes` tem 50 colunas e não 49 (p5)?
+- [ ] **T00b** Resolver o menu na mão (1,5 h, Sprint 1). PDF p12 a p15. R-23, R-24, R-41, R-58, R-62, R-68, R-69.
+  - [ ] Sem rodar código, escrever a saída esperada, com a conta de onde vem cada número, para: opção 2 com ID 3 e com ID 99; opção 3 com unidade 101 e 999; opção 4 de 01/2026 a 02/2026, de 13/2026 a 02/2026 e de 03/2026 a 01/2026; opção 5. Conferir com os casos 14, 17, 18, 19, 22, 24, 26 e 27
+  - [ ] Opção 5 com os dados de `tests/borda`: tabela de soma por unidade e o desempate pelo menor ID (caso 28)
+  - [ ] Com a tabela do exemplo, mostrar o que dá errado se a ordenação trocar só o `ids` (R-24)
+  - [ ] Fazer a busca binária do ID 2 em `1, 3, 2, 4, 5` (ordem do arquivo) e mostrar por que ela falha sem ordenar antes (R-23, R-58)
+- [ ] **T00c** Mapa das 12 funções (1 h, Sprint 1). PDF p4 a p11.
+  - [ ] Tabela Função | Arquivo | Opção do menu que usa | O que entra | O que devolve | Em uma frase, para as 12 funções
+  - [ ] Quando cada função devolve um valor especial: `-1` nas cargas e nas buscas; empate em `encontrarUnidadeMaiorConsumo`
+  - [ ] Por que quick e merge recebem `inicio` e `fim` em vez de `n`, e qual é a chamada inicial (D3)
+
+### Esqueleto
+
 - [ ] **T01** Criar esqueleto com as 12 assinaturas do PDF e `kwatch.h` (2 h, Sprint 1). R-01, R-08, R-09, R-10, R-11, R-15, R-20, R-22, R-25, R-27, R-29, R-31, R-33, R-35, R-37, R-39, R-75, R-79.
   - [ ] (sugestão) `main.c`, `carga.c`, `busca.c`, `ordenacao.c`, `analise.c` e `kwatch.h` (obrigatório) com os protótipos e `#define MAX 1000`
   - [ ] Assinaturas copiadas exatamente do PDF; arrays do PDF p3, sem `struct`
@@ -90,7 +115,7 @@ Critério de pronto de toda tarefa: compila com o comando oficial (CI verde), te
 
 | Sprint | Período | Tarefas | Horas |
 |---|---|---|---|
-| Sprint 1 | 05 a 11/11 | T01 a T11 | 22 |
+| Sprint 1 | 05 a 11/11 | T00a a T00c, T01 a T11 | 25,5 |
 | Sprint 2 | 12 a 18/11 | T12 a T23 (congelamento em 16/11, entrega em 18/11) | 22 |
 | Sprint 3 | 19 a 26/11 | Apresentação em 19/11; T24 até o questionário em 26/11 | 3 |
 
@@ -103,6 +128,7 @@ Para ativar se o segundo integrante voltar. Regras: horas equilibradas; quick e 
 | A (Nicolas) | T01, T05, T09, T14 a T20, T22, T24 (A) | 25 | T02, T03, T04, T06, T07, T08, T10, T11, T12, T13, T21, T23 |
 | B (______) | T02, T03, T04, T06, T07, T08, T10, T11, T12, T13, T21, T23, T24 (B) | 25 | T01, T05, T09, T14 a T20, T22 |
 
+- Na divisão para 2, T00a a T00c são feitas por cada pessoa (3,5 h cada), antes das tarefas de código.
 - Na divisão para 2, T24 é feita por cada pessoa (3 h cada) e o treino passa a ser em código que a pessoa **não** escreveu, como pede o formato do questionário. (sugestão) A modifica merge e selection (de B); B modifica quick e `buscaBinaria` (de A).
 
 | Sprint | A | B |
@@ -116,5 +142,5 @@ Para ativar se o segundo integrante voltar. Regras: horas equilibradas; quick e 
 | Risco | Contingência |
 |---|---|
 | Não compilar com o comando oficial (zera o projeto) | `kwatch.h` obrigatório; o CI no Windows bloqueia o merge sem `.h`; confirmar com o professor (D2) |
-| 47 h para 1 pessoa em 13 dias | Funções primeiro (são o que o questionário modifica); conferir as saídas com o PDF só no fim; 16/11 é a data-limite do congelamento |
+| 50,5 h para 1 pessoa em 13 dias | Funções primeiro (são o que o questionário modifica); conferir as saídas com o PDF só no fim; 16/11 é a data-limite do congelamento |
 | Situação do grupo (PDF p16: grupos de 2 a 3) | Perguntar ao professor já (D1) e manter a divisão para 2 pronta |
