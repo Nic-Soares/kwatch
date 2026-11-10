@@ -35,7 +35,7 @@ Critério de pronto de toda tarefa: compila com o comando oficial (CI verde), te
 
 ### Contexto do projeto (antes do código)
 
-Entender o problema antes de programar: o que o sistema resolve, como são os dados e o que cada função e cada opção do menu responde. Estas tarefas não têm código. A entrega é o arquivo `docs/contexto.md`, **escrito com as próprias palavras** (sem copiar do PDF nem do chat), uma seção por tarefa.
+Entender o problema antes de programar: o que o sistema resolve, como são os dados e o que cada função e cada opção do menu responde. Estas tarefas não têm código. A entrega é a pasta `docs/contexto/`, **escrita com as próprias palavras** (sem copiar do PDF nem do chat): um arquivo por tarefa e o material de consulta em `referencia.md`.
 
 Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tests/casos.md`, todas certas; uma resposta errada é corrigida e refeita sem consulta. Branch `docs/T00a-contexto` (uma só para as três) e PR para `develop`.
 
