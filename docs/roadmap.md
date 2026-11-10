@@ -57,10 +57,10 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 
 ### Esqueleto
 
-- [ ] **T01** Criar esqueleto com as 12 assinaturas do PDF e `kwatch.h` (2 h, Sprint 1). R-01, R-08, R-09, R-10, R-11, R-15, R-20, R-22, R-25, R-27, R-29, R-31, R-33, R-35, R-37, R-39, R-75, R-79.
-  - [ ] (sugestão) `main.c`, `carga.c`, `busca.c`, `ordenacao.c`, `analise.c` e `kwatch.h` (obrigatório) com os protótipos e `#define MAX 1000`
-  - [ ] Assinaturas copiadas exatamente do PDF; arrays do PDF p3, sem `struct`
-  - [ ] Cabeçalho com nome e RA em cada arquivo
+- [x] **T01** Criar esqueleto com as 12 assinaturas do PDF e `kwatch.h` (2 h, Sprint 1). R-01, R-08, R-09, R-10, R-11, R-15, R-20, R-22, R-25, R-27, R-29, R-31, R-33, R-35, R-37, R-39, R-75, R-79.
+  - [x] (sugestão) `main.c`, `carga.c`, `busca.c`, `organizacao.c`, `analise.c` e `kwatch.h` (obrigatório) com os protótipos e `#define MAX 1000`
+  - [x] Assinaturas copiadas exatamente do PDF; arrays do PDF p3, sem `struct`
+  - [x] Cabeçalho com nome e RA em cada arquivo
 
 ### Carregamento (PDF 4.1)
 

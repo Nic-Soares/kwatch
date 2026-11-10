@@ -4,6 +4,7 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 
 | Arquivo | Tarefa | Estado |
 |---|---|---|
+| [../conceitos.md](../conceitos.md) | o porquê de cada conceito aprendido, em ordem | estudo |
 | [referencia.md](referencia.md) | material de consulta: dados, menu, saídas, regras, assinaturas, retornos | consulta |
 | [T00a.md](T00a.md) | entender o problema e os dados | concluída |
 | [T00b.md](T00b.md) | resolver o menu na mão | concluída |
