@@ -239,6 +239,21 @@ PDF p4 a p11. Têm que ser copiadas exatamente assim.
 | p10 | `float calcularConsumoPeriodo(int meses[], int anos[], float consumos[], int n, int mesInicial, int anoInicial, int mesFinal, int anoFinal);` |
 | p11 | `int encontrarUnidadeMaiorConsumo(int unidadeIds[], float consumos[], int n);` |
 
+Parâmetros, como o PDF descreve cada um:
+
+| Parâmetro | O que é | PDF |
+|---|---|---|
+| `nomeArquivo[]` | nome do arquivo de entrada (o texto `"leituras.txt"` ou `"unidades.csv"`) | p4, p5 |
+| `ids[]`, `unidadeIds[]`, `meses[]`, `anos[]`, `consumos[]` | os 5 arrays paralelos das leituras; nas cargas chegam vazios e a função os preenche | p4, p7 a p9 |
+| `unidadeIds[]` (em `carregarUnidades`) | array de IDs das unidades do catálogo (no `main` é o `unidadeIdsCatalogo`) | p5 |
+| `descricoes[][50]` | array com as descrições, até 49 caracteres cada | p5 |
+| `max` | capacidade máxima dos arrays: a função não carrega mais linhas que isso | p4, p5 |
+| `n` | quantidade de registros (leituras) que estão nos arrays | p6 a p11 |
+| `idProcurado` | ID da leitura a ser buscado | p6 |
+| `inicio`, `fim` | primeira e última posição do pedaço a ordenar | p8, p9 |
+| `unidadeId` | ID da unidade consultada | p10 |
+| `mesInicial`, `anoInicial`, `mesFinal`, `anoFinal` | início e fim do período | p10 |
+
 Como ler uma assinatura:
 
 | Parte | Exemplo em `int buscaLinear(int ids[], int n, int idProcurado);` | O que diz |
