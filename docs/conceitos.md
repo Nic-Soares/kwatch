@@ -26,6 +26,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 20 | [`char descricoes[][50]`: lista de textos](#20-char-descricoes50-lista-de-textos) | T01 |
 | 21 | [Parênteses vazios no protótipo](#21-parênteses-vazios-no-protótipo) | T01 |
 | 22 | [Compilar × ligar e o `main`](#22-compilar--ligar-e-o-main) | T01 |
+| 23 | [Ler um arquivo: `fopen`, `fscanf`, `fclose`](#23-ler-um-arquivo-fopen-fscanf-fclose) | T02 |
 
 ---
 
@@ -303,3 +304,25 @@ O ID 3 está na posição 1. `ids[3]` não é a leitura 3.
 **Exemplo:** com os 5 `.c` só com cabeçalho e `#include`, cada um compila (`gcc -c carga.c` dá certo), mas `gcc -o main *.c` falha: `Undefined symbols: "_main"` (no Windows: `undefined reference to 'WinMain'` ou `'main'`).
 
 **Cuidado:** dois `main` (por exemplo, um em `main.c` e outro num arquivo de teste na mesma pasta) também falham ao juntar: `duplicate symbol _main`.
+
+## 23. Ler um arquivo: `fopen`, `fscanf`, `fclose`
+
+**Em uma linha:** abro o arquivo com `fopen`, leio com `fscanf` (o `scanf` que lê do arquivo em vez do teclado) e fecho com `fclose`.
+
+**Por que existe:** os dados do kwatch estão no disco (`leituras.txt`, `unidades.csv`), não são digitados. O programa precisa pedir acesso ao arquivo (abrir), tirar os valores dele (ler) e devolver o acesso no fim (fechar).
+
+**Exemplo:**
+
+| Linha de C | O que faz |
+|---|---|
+| `FILE *arq;` | variável que representa um arquivo aberto (tipo `FILE *`, de `<stdio.h>`) |
+| `arq = fopen("leituras.txt", "r");` | abre para leitura (`"r"` = read); devolve `NULL` se não conseguiu |
+| `if (arq == NULL) return -1;` | arquivo não abriu: a `carregarLeituras` devolve -1 (PDF p4) |
+| `fscanf(arq, "%d", &id);` | lê um `int` do arquivo, como o `scanf` |
+| `fclose(arq);` | fecha |
+
+**O que o `fscanf` devolve:** quantos valores conseguiu ler naquela chamada: `1` (leu o `%d` pedido) ou `-1`, chamado `EOF` (fim do arquivo, não leu nada e não mexeu na variável). Ler até o fim: `while (fscanf(arq, "%d", &x) == 1)`.
+
+**Arquivo vazio × arquivo que não abre:** vazio abre normalmente (o `fopen` não devolve `NULL`); o que falha é o `fscanf`. Na `carregarLeituras`: não abriu → -1; vazio → 0 leituras.
+
+**Cuidado:** testar o `NULL` logo depois do `fopen`: ler ou fechar um arquivo que não abriu derruba o programa. E o `fclose` vem antes do `return`, porque nada depois do `return` roda.
