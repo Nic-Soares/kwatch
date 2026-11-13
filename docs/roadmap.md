@@ -64,7 +64,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 
 ### Carregamento (PDF 4.1)
 
-- [ ] **T02** Implementar `carregarLeituras` (2 h, Sprint 1). R-02, R-03, R-04, R-11, R-12, R-13, R-14. Casos: exemplo retorna 5, arquivo inexistente retorna -1, mais linhas que `max`.
+- [x] **T02** Implementar `carregarLeituras` (2 h, Sprint 1). R-02, R-03, R-04, R-11, R-12, R-13, R-14. Casos: exemplo retorna 5, arquivo inexistente retorna -1, mais linhas que `max`.
 - [ ] **T03** Implementar `carregarUnidades` (2 h, Sprint 1). R-05, R-06, R-07, R-15 a R-19. Casos 2 e 21; descrição com espaços; no máximo 49 caracteres.
 
 ### Busca (PDF 4.2)
