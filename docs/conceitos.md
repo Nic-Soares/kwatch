@@ -31,6 +31,11 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 25 | [Ler `id;descricao`: o `;` e o `%49[^\n]`](#25-ler-iddescricao-o--e-o-49n) | T03 |
 | 26 | [Busca linear: achei e o -1 depois do laço](#26-busca-linear-achei-e-o--1-depois-do-laço) | T04 |
 | 27 | [Busca binária: `inicio`, `fim` e `meio`](#27-busca-binária-inicio-fim-e-meio) | T05 |
+| 28 | [Bubble sort por ID trocando os 5 arrays](#28-bubble-sort-por-id-trocando-os-5-arrays) | T06 |
+| 29 | [Insertion sort por ID guardando a leitura inteira](#29-insertion-sort-por-id-guardando-a-leitura-inteira) | T07 |
+| 30 | [Selection sort por ID: `pm` guarda a posição](#30-selection-sort-por-id-pm-guarda-a-posição) | T08 |
+| 31 | [Quick sort por ID: partição com pivô no fim](#31-quick-sort-por-id-partição-com-pivô-no-fim) | T09 |
+| 32 | [Merge sort por ID: intercalar os 5 arrays](#32-merge-sort-por-id-intercalar-os-5-arrays) | T10 |
 
 ---
 
@@ -439,3 +444,133 @@ Devolve 3, a **posição**. O valor 4 o `main` já sabe: foi ele que pediu.
 **Por que `meio + 1` e `meio - 1`, e não `meio`:** a posição `meio` já foi olhada. Com `inicio = meio`, quando `inicio` e `fim` ficam vizinhos o `meio` dá sempre o mesmo número e o laço nunca termina.
 
 **Cuidado:** a condição é `inicio <= fim`. Quando `inicio == fim` ainda sobra **uma** posição para olhar (volta 3 do Exemplo); com `<`, ela é pulada e a função devolve -1 com o valor lá.
+
+## 28. Bubble sort por ID trocando os 5 arrays
+
+**Em uma linha:** comparo cada par de vizinhos (`j` e `j + 1`); se o da esquerda tem ID maior, troco as duas leituras inteiras (5 arrays); a cada passada, o maior ID que sobrou vai para o fim.
+
+**Por que existe:** a opção 1 do menu, ordenação 1, é o bubble sort (PDF p7, p12). Ele ordena por `ids`, mas cada troca leva junto as outras 4 colunas, senão a leitura se desfaz (conceito 9).
+
+| Variável | O que guarda | Começa em | Limite e por quê |
+|---|---|---|---|
+| `i` | quantas passadas já terminaram (quantos maiores já estão no fim) | 0 | `i < n - 1`: com `n - 1` maiores no lugar, o que sobra na posição 0 já é o menor |
+| `j` | a posição da esquerda do par comparado | 0 | `j < n - 1 - i`: o par é `j` e `j + 1`, então `j + 1` não pode passar de `n - 1`; e as últimas `i` posições já estão no lugar |
+| `aux` (`int`) | um valor de `ids`, `unidadeIds`, `meses` ou `anos` durante a troca | (a cada troca) | sem ela, o primeiro valor seria apagado antes de ser copiado |
+| `auxC` (`float`) | o valor de `consumos` durante a troca | (a cada troca) | `float`: em `int`, 310.2 viraria 310 |
+
+**Exemplo:** `ids` = 4, 1, 3, passada 1 (`i` = 0, `j` de 0 a 1):
+
+| `j` | par comparado | troca? | `ids` depois |
+|---|---|---|---|
+| 0 | 4 e 1 | sim | 1, 4, 3 |
+| 1 | 4 e 3 | sim | 1, 3, 4 |
+
+O 4, o maior, chegou ao fim. A passada 2 compara só `j` = 0 (1 e 3, sem troca).
+
+**A troca de uma coluna, em 3 linhas:** `aux = ids[j]; ids[j] = ids[j + 1]; ids[j + 1] = aux;`. Repete-se para cada um dos 5 arrays, com `auxC` nos `consumos`. (sugestão) Para não escrever 15 linhas de novo em cada ordenação, dá para criar no `organizacao.c` uma função auxiliar `trocaLeitura(..., int a, int b)` que troca as posições `a` e `b` nos 5 arrays; ela não está no PDF, então não vai no `kwatch.h` como função pedida.
+
+**Cuidado:** trocar só `ids` passa no teste de "IDs em ordem", mas desassocia as leituras: o caso 7 confere unidade, mês, ano e consumo de cada ID (PDF p13).
+
+## 29. Insertion sort por ID guardando a leitura inteira
+
+**Em uma linha:** para cada `i` a partir de 1, guardo a leitura da posição `i` (a `chave`), ando para a direita cada leitura da esquerda com ID maior que o da `chave`, e ponho a `chave` no buraco que sobrou.
+
+**Por que existe:** a opção 1 do menu, ordenação 2, é o insertion sort (PDF p7, p12). A parte da esquerda (posições 0 a `i - 1`) já está em ordem; cada volta insere mais uma leitura nela.
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `i` | a posição da leitura que vai ser inserida | 1 (a posição 0 sozinha já está em ordem) | a cada volta do laço de fora, até `n - 1` |
+| `chaveId`, `chaveU`, `chaveM`, `chaveA` (`int`), `chaveC` (`float`) | as 5 colunas da leitura da posição `i` | no começo de cada volta | não mudam até a leitura entrar no lugar |
+| `j` | a posição comparada com a `chave`, andando para a esquerda | `i - 1` | `j--` a cada deslocamento; para em -1 ou num ID menor ou igual |
+
+**Exemplo:** `ids` = 4, 1, 3:
+
+| `i` | `chave` | Andaram para a direita | Entra na posição | `ids` depois |
+|---|---|---|---|---|
+| 1 | 1 | o 4 | 0 | 1, 4, 3 |
+| 2 | 3 | o 4 | 1 | 1, 3, 4 |
+
+**Por que guardar as 5:** o primeiro deslocamento copia a posição `i - 1` para a posição `i`, por cima da leitura da `chave`, nas 5 colunas. O que não estiver guardado se perde.
+
+**O deslocamento, nas 5 colunas:** `ids[j + 1] = ids[j];` e o mesmo para `unidadeIds`, `meses`, `anos` e `consumos`. No fim: `ids[j + 1] = chaveId;` e o mesmo para as outras 4.
+
+**Cuidado:** a condição é `j >= 0 && ids[j] > chaveId`, nessa ordem. Quando `j` vira -1, o `&&` para no primeiro lado falso e `ids[-1]` (fora do array) nunca é lido.
+
+## 30. Selection sort por ID: `pm` guarda a posição
+
+**Em uma linha:** em cada passada `i`, procuro a **posição** do menor ID entre `i` e o fim (`pm`) e troco a leitura da posição `i` com a da posição `pm`, nos 5 arrays.
+
+**Por que existe:** a opção 1 do menu, ordenação 3, é o selection sort (PDF p8, p12). Cada passada põe o menor que sobrou no lugar definitivo, com no máximo uma troca por passada.
+
+| Variável | O que guarda | Começa em | Limite e por quê |
+|---|---|---|---|
+| `i` | a posição que vai receber o menor que sobrou | 0 | `i < n - 1`: quando as posições 0 a `n - 2` estão certas, a última só pode ter o maior |
+| `pm` | a **posição** do menor ID visto até agora na passada | `i` (o primeiro candidato) | muda quando `ids[j] < ids[pm]` |
+| `j` | a posição comparada com o menor até agora | `i + 1` (a posição `i` já é o candidato inicial) | `j < n`: olha até a última posição |
+
+**Exemplo:** `ids` = 4, 1, 3:
+
+| `i` | `pm` no fim (posição) | `ids[pm]` (valor) | Troca? | `ids` depois |
+|---|---|---|---|---|
+| 0 | 1 | 1 | sim, 0 com 1 | 1, 4, 3 |
+| 1 | 2 | 3 | sim, 1 com 2 | 1, 3, 4 |
+
+**Por que posição:** a troca precisa saber **de onde** tirar a leitura (as 5 colunas da posição `pm`). O valor 1 diz qual é o menor ID, mas não diz em que posição estão a unidade, o mês, o ano e o consumo dele.
+
+**Cuidado:** a troca fica **depois** do laço do `j`, uma vez por passada; dentro do laço, trocaria a cada candidato novo.
+
+## 31. Quick sort por ID: partição com pivô no fim
+
+**Em uma linha:** a partição escolhe o ID da posição `fim` como pivô, junta à esquerda as leituras com ID menor ou igual, põe o pivô logo depois delas e devolve a posição dele (`p`); depois o quick ordena, chamando a si mesmo, a parte antes de `p` e a parte depois de `p`.
+
+**Por que existe:** a opção 1 do menu, ordenação 4, é o quick sort (PDF p8, p12). Depois da partição, o pivô está no lugar definitivo; sobram dois pedaços menores, cada um com o mesmo problema (recursão).
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `pivo` | o ID da posição `fim` | `ids[fim]` | não muda na partição |
+| `i` | a última posição do grupo "menor ou igual ao pivô" | `inicio - 1` (grupo vazio) | sobe 1 a cada `ids[j] <= pivo`, e as leituras `i` e `j` trocam |
+| `j` | a posição comparada com o pivô | `inicio` | vai até `fim - 1` (a posição `fim` é o pivô) |
+| `p` | a posição final do pivô | `i + 1`, no fim da partição | (devolvida) |
+
+**Exemplo:** `ids` = 4, 1, 3 com `(0, 2)`: `pivo` = 3, `i` = -1.
+
+| `j` | `ids[j]` | `<= 3`? | `i` depois | `ids` depois |
+|---|---|---|---|---|
+| 0 | 4 | não | -1 | 4, 1, 3 |
+| 1 | 1 | sim | 0 (troca 0 e 1) | 1, 4, 3 |
+
+Fim: o pivô troca com `i + 1` = 1: `ids` = 1, 3, 4; `p` = 1.
+
+**As duas chamadas:** `(inicio, p - 1)` e `(p + 1, fim)`. A posição `p` fica de fora porque o pivô já está no lugar certo.
+
+**Quando para:** caso base é o pedaço com 0 ou 1 posição (`inicio >= fim`): já está em ordem e a função não faz nada. Por isso o corpo inteiro fica dentro de `if (inicio < fim)`.
+
+**Cuidado:** cada troca da partição (as de dentro do laço e a do pivô) troca as 5 colunas. A chamada do `main` é `(…, 0, n - 1)`, provisório até a resposta da D3 (conceito 14).
+
+## 32. Merge sort por ID: intercalar os 5 arrays
+
+**Em uma linha:** divido o pedaço `inicio`..`fim` ao meio, ordeno cada metade chamando a mesma função, e intercalo as duas metades já ordenadas, pegando sempre a leitura de menor ID da frente de cada uma.
+
+**Por que existe:** a opção 1 do menu, ordenação 5, é o merge sort (PDF p9, p12). Juntar duas listas ordenadas em uma só é fácil: basta comparar quem está na frente de cada uma.
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `meio` | a última posição da metade da esquerda | `(inicio + fim) / 2` | (fixo na chamada) |
+| `i` | a posição da frente na metade da esquerda | `inicio` | sobe quando a leitura dela vai para o `aux`; acaba em `meio` |
+| `j` | a posição da frente na metade da direita | `meio + 1` | sobe quando a leitura dela vai para o `aux`; acaba em `fim` |
+| `k` | a próxima posição livre no `aux` | 0 | sobe a cada leitura copiada |
+| `auxIds`, `auxU`, `auxM`, `auxA` (`int`), `auxC` (`float`) | o pedaço intercalado, nas 5 colunas | vazios | no fim, copiados de volta para as posições `inicio` a `fim` |
+
+**Exemplo:** metades 1, 4 (posições 0 e 1) e 3 (posição 2):
+
+| `k` | frente da esquerda | frente da direita | Vai para `aux[k]` |
+|---|---|---|---|
+| 0 | 1 | 3 | 1 (esquerda) |
+| 1 | 4 | 3 | 3 (direita) |
+| 2 | 4 | (acabou) | 4 (sobra da esquerda) |
+
+**As duas chamadas:** `(inicio, meio)` e `(meio + 1, fim)`; caso base, como no quick: `inicio >= fim` (0 ou 1 posição).
+
+**Por que o `aux`:** escrever direto no array apagaria leituras da direita que ainda não foram comparadas. As 5 colunas vão para os 5 `aux`; o dos consumos é `float`. No fim, `aux[t]` volta para a posição `inicio + t`.
+
+**Cuidado:** quando uma metade acaba, a sobra da outra é copiada inteira (dois laços depois do principal). Com `<=` na comparação (`ids[i] <= ids[j]`), em empate vai primeiro a da esquerda.

@@ -40,11 +40,11 @@ Entender o problema antes de programar: o que o sistema resolve, como são os da
 Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tests/casos.md`, todas certas; uma resposta errada é corrigida e refeita sem consulta. Branch `docs/T00a-contexto` (uma só para as três) e PR para `develop`.
 
 - [x] **T00a** Entender o problema e os dados (1 h, Sprint 1). PDF p1 a p3. R-02, R-03, R-04, R-05, R-06, R-07, R-08, R-10.
-  - [ ] Em uma frase: o que o sistema faz e que perguntas ele responde (p1)
-  - [ ] O que é uma leitura e o que é uma unidade; como o `unidade_id` liga `leituras.txt` a `unidades.csv` (p2)
-  - [ ] Por que `unidades.csv` separa por `;` e `leituras.txt` por espaço (p2)
-  - [ ] Montar na mão as tabelas `i | ids[i] | unidadeIds[i] | meses[i] | anos[i] | consumos[i]` e `j | unidadeIdsCatalogo[j] | descricoes[j]` com o exemplo da p2, na ordem do arquivo (p3)
-  - [ ] Pela tabela, posição × valor: em que posição está a leitura de ID 3? Qual é a descrição da unidade da leitura na posição 4? Por que `descricoes` tem 50 colunas e não 49 (p5)?
+  - [x] Em uma frase: o que o sistema faz e que perguntas ele responde (p1)
+  - [x] O que é uma leitura e o que é uma unidade; como o `unidade_id` liga `leituras.txt` a `unidades.csv` (p2)
+  - [x] Por que `unidades.csv` separa por `;` e `leituras.txt` por espaço (p2)
+  - [x] Montar na mão as tabelas `i | ids[i] | unidadeIds[i] | meses[i] | anos[i] | consumos[i]` e `j | unidadeIdsCatalogo[j] | descricoes[j]` com o exemplo da p2, na ordem do arquivo (p3)
+  - [x] Pela tabela, posição × valor: em que posição está a leitura de ID 3? Qual é a descrição da unidade da leitura na posição 4? Por que `descricoes` tem 50 colunas e não 49 (p5)?
 - [x] **T00b** Resolver o menu na mão (1,5 h, Sprint 1). PDF p12 a p15. R-23, R-24, R-41, R-58, R-62, R-68, R-69.
   - [ ] Sem rodar código, escrever a saída esperada, com a conta de onde vem cada número, para: opção 2 com ID 3 e com ID 99; opção 3 com unidade 101 e 999; opção 4 de 01/2026 a 02/2026, de 13/2026 a 02/2026 e de 03/2026 a 01/2026; opção 5. Conferir com os casos 14, 17, 18, 19, 22, 24, 26 e 27
   - [ ] Opção 5 com os dados de `tests/borda`: tabela de soma por unidade e o desempate pelo menor ID (caso 28)
@@ -74,11 +74,11 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 
 ### Ordenação (PDF 4.3), sempre trocando os 5 arrays juntos (R-24)
 
-- [ ] **T06** Implementar Bubble Sort por ID (2 h, Sprint 1). R-24, R-25, R-26. Casos 7 e 12.
-- [ ] **T07** Implementar Insertion Sort por ID (2 h, Sprint 1). R-24, R-27, R-28. Casos 8 e 12.
-- [ ] **T08** Implementar Selection Sort por ID (2 h, Sprint 1). R-24, R-29, R-30. Casos 9 e 12.
-- [ ] **T09** Implementar Quick Sort por ID (3 h, Sprint 1). R-24, R-31, R-32. Casos 10 e 12; chamada inicial conforme a dúvida D3.
-- [ ] **T10** Implementar Merge Sort por ID (3 h, Sprint 1). R-24, R-33, R-34. Casos 11 e 12; chamada inicial conforme a dúvida D3.
+- [x] **T06** Implementar Bubble Sort por ID (2 h, Sprint 1). R-24, R-25, R-26. Casos 7 e 12.
+- [x] **T07** Implementar Insertion Sort por ID (2 h, Sprint 1). R-24, R-27, R-28. Casos 8 e 12.
+- [x] **T08** Implementar Selection Sort por ID (2 h, Sprint 1). R-24, R-29, R-30. Casos 9 e 12.
+- [x] **T09** Implementar Quick Sort por ID (3 h, Sprint 1). R-24, R-31, R-32. Casos 10 e 12; chamada inicial conforme a dúvida D3.
+- [x] **T10** Implementar Merge Sort por ID (3 h, Sprint 1). R-24, R-33, R-34. Casos 11 e 12; chamada inicial conforme a dúvida D3.
 
 ### Análise de dados (PDF 4.4)
 
