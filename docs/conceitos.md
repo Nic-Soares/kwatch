@@ -30,6 +30,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 24 | [Carregar arquivo em arrays paralelos](#24-carregar-arquivo-em-arrays-paralelos) | T02 |
 | 25 | [Ler `id;descricao`: o `;` e o `%49[^\n]`](#25-ler-iddescricao-o--e-o-49n) | T03 |
 | 26 | [Busca linear: achei e o -1 depois do laço](#26-busca-linear-achei-e-o--1-depois-do-laço) | T04 |
+| 27 | [Busca binária: `inicio`, `fim` e `meio`](#27-busca-binária-inicio-fim-e-meio) | T05 |
 
 ---
 
@@ -412,3 +413,29 @@ Devolve 3, a **posição**. O valor 4 o `main` já sabe: foi ele que pediu.
 **Por que o -1 fica depois do laço:** só dá para dizer "não está" depois de olhar **todas** as posições. Dentro do laço, uma posição diferente diz só que o ID não está **ali**.
 
 **Cuidado:** um `else return -1;` dentro do laço faz a função desistir já na posição 0: procurando 3, olha `ids[0]` = 1, é diferente, e devolve -1, sem nunca chegar à posição 1, onde o 3 está.
+
+## 27. Busca binária: `inicio`, `fim` e `meio`
+
+**Em uma linha:** com o array em ordem crescente, olho a posição do meio do pedaço que sobrou; se for o procurado, devolvo o meio; se for menor, o procurado só pode estar à direita (`inicio = meio + 1`); se for maior, só à esquerda (`fim = meio - 1`).
+
+**Por que existe:** a opção 2 do menu oferece a binária (PDF p13). Em vez de olhar uma posição por volta, como a linear (conceito 26), cada volta descarta metade do que sobrou: com 1000 leituras, a linear pode precisar de 1000 voltas; a binária, de no máximo 10.
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `inicio` | primeira posição onde o procurado ainda pode estar | 0 | `ids[meio]` é menor que o procurado: vira `meio + 1` |
+| `fim` | última posição onde o procurado ainda pode estar | `n - 1` | `ids[meio]` é maior que o procurado: vira `meio - 1` |
+| `meio` | a posição olhada nesta volta | calculada em toda volta | `(inicio + fim) / 2`, divisão inteira (`7 / 2` dá 3) |
+
+**Exemplo:** `ids` = 1, 2, 3, 4, 5, procurando 2:
+
+| Volta | `inicio` | `fim` | `meio` | `ids[meio]` | O que acontece |
+|---|---|---|---|---|---|
+| 1 | 0 | 4 | 2 | 3 | 3 maior que 2: `fim` = 1 |
+| 2 | 0 | 1 | 0 | 1 | 1 menor que 2: `inicio` = 1 |
+| 3 | 1 | 1 | 1 | 2 | igual: devolve 1 |
+
+**Quando para:** quando acha (devolve `meio`) ou quando `inicio` passa de `fim`: aí não sobrou nenhuma posição onde o procurado possa estar, e devolve -1, **depois** do laço, como na linear.
+
+**Por que `meio + 1` e `meio - 1`, e não `meio`:** a posição `meio` já foi olhada. Com `inicio = meio`, quando `inicio` e `fim` ficam vizinhos o `meio` dá sempre o mesmo número e o laço nunca termina.
+
+**Cuidado:** a condição é `inicio <= fim`. Quando `inicio == fim` ainda sobra **uma** posição para olhar (volta 3 do Exemplo); com `<`, ela é pulada e a função devolve -1 com o valor lá.

@@ -11,3 +11,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T00c.md](T00c.md) | mapa das 12 funções | em andamento |
 | [T03.md](T03.md) | `carregarUnidades` | concluída |
 | [T04.md](T04.md) | `buscaLinear` | concluída |
+| [T05.md](T05.md) | `buscaBinaria` | concluída |
