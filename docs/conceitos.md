@@ -29,6 +29,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 23 | [Ler um arquivo: `fopen`, `fscanf`, `fclose`](#23-ler-um-arquivo-fopen-fscanf-fclose) | T02 |
 | 24 | [Carregar arquivo em arrays paralelos](#24-carregar-arquivo-em-arrays-paralelos) | T02 |
 | 25 | [Ler `id;descricao`: o `;` e o `%49[^\n]`](#25-ler-iddescricao-o--e-o-49n) | T03 |
+| 26 | [Busca linear: achei e o -1 depois do laço](#26-busca-linear-achei-e-o--1-depois-do-laço) | T04 |
 
 ---
 
@@ -390,3 +391,24 @@ devolve `n` = 3. Com `%s` no lugar de `%49[^\n]`, `descricoes[0]` seria só `Lab
 **E o fim de linha?** O `%[^\n]` para **antes** do `\n` e o deixa no arquivo. Na volta seguinte, o `%d` pula espaços e fins de linha antes do número, então o `\n` some sem fazer nada.
 
 **Cuidado:** sem o `49`, uma descrição de 60 letras seria gravada até a posição 60 de uma linha que só tem 50 posições, por cima da linha seguinte. O `49` é o tamanho da linha (50) menos 1, por causa do `'\0'`. Material de fora do Vault (o Vault não tem material de arquivos): o `%[...]` é chamado de *scanset* na documentação do C.
+
+## 26. Busca linear: achei e o -1 depois do laço
+
+**Em uma linha:** olho as posições de 0 a `n - 1`, uma por uma; na primeira em que `ids[i]` é o procurado, devolvo `i`; se o laço acabar sem achar, devolvo -1.
+
+**Por que existe:** a opção 2 do menu (PDF p13) precisa saber **em que posição** está a leitura de um ID, para mostrar a unidade, o mês, o ano e o consumo da mesma posição nos outros arrays (conceito 3). A busca linear funciona com os IDs em qualquer ordem, inclusive na ordem do arquivo.
+
+**Exemplo:** `ids` = 1, 3, 2, 4, 5 (ordem do `leituras.txt`, PDF p2), procurando 4:
+
+| `i` | `ids[i]` | `ids[i] == 4`? |
+|---|---|---|
+| 0 | 1 | não |
+| 1 | 3 | não |
+| 2 | 2 | não |
+| 3 | 4 | **sim: devolve 3** |
+
+Devolve 3, a **posição**. O valor 4 o `main` já sabe: foi ele que pediu.
+
+**Por que o -1 fica depois do laço:** só dá para dizer "não está" depois de olhar **todas** as posições. Dentro do laço, uma posição diferente diz só que o ID não está **ali**.
+
+**Cuidado:** um `else return -1;` dentro do laço faz a função desistir já na posição 0: procurando 3, olha `ids[0]` = 1, é diferente, e devolve -1, sem nunca chegar à posição 1, onde o 3 está.

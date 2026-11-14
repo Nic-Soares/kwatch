@@ -69,7 +69,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 
 ### Busca (PDF 4.2)
 
-- [ ] **T04** Implementar `buscaLinear` (1 h, Sprint 1). R-20, R-21. Casos 14 e 17.
+- [x] **T04** Implementar `buscaLinear` (1 h, Sprint 1). R-20, R-21. Casos 14 e 17.
 - [ ] **T05** Implementar `buscaBinaria` (2 h, Sprint 1). R-22, R-23. Casos 15, 16 e 17.
 
 ### Ordenação (PDF 4.3), sempre trocando os 5 arrays juntos (R-24)
