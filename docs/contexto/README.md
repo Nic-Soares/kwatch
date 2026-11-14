@@ -12,3 +12,8 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T03.md](T03.md) | `carregarUnidades` | concluída |
 | [T04.md](T04.md) | `buscaLinear` | concluída |
 | [T05.md](T05.md) | `buscaBinaria` | concluída |
+| [T06.md](T06.md) | `bubbleSortLeituraPorId` | concluída |
+| [T07.md](T07.md) | `insertionSortLeituraPorId` | concluída |
+| [T08.md](T08.md) | `selectionSortLeituraPorId` | concluída |
+| [T09.md](T09.md) | `quickSortLeituraPorId` | concluída |
+| [T10.md](T10.md) | `mergeSortLeituraPorId` | concluída |
