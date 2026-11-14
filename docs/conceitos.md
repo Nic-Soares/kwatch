@@ -385,6 +385,8 @@ devolve `n` = 3. Com `%s` no lugar de `%49[^\n]`, `descricoes[0]` seria só `Lab
 
 **Por que `descricoes[n]` vai sem `&`:** `descricoes[n]` é uma linha inteira da matriz (conceito 20), um array de `char`. Nome de array, passado para uma função, já é o endereço da posição 0 dele. Já `unidadeIds[n]` é um `int` só, e o `fscanf` precisa do endereço dele: `&unidadeIds[n]`.
 
+**Por que `[^\r\n]` no kwatch (sugestão):** arquivo salvo no Windows termina cada linha com `\r\n`. No Windows o `fopen` com `"r"` já tira o `\r`; no Mac ele chega ao `fscanf`, e com só `[^\n]` ficaria no fim da descrição (`"Laboratorio de Informatica\r"`). Com `%49[^\r\n]` a leitura para no que vier primeiro.
+
 **E o fim de linha?** O `%[^\n]` para **antes** do `\n` e o deixa no arquivo. Na volta seguinte, o `%d` pula espaços e fins de linha antes do número, então o `\n` some sem fazer nada.
 
 **Cuidado:** sem o `49`, uma descrição de 60 letras seria gravada até a posição 60 de uma linha que só tem 50 posições, por cima da linha seguinte. O `49` é o tamanho da linha (50) menos 1, por causa do `'\0'`. Material de fora do Vault (o Vault não tem material de arquivos): o `%[...]` é chamado de *scanset* na documentação do C.
