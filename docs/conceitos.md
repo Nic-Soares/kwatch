@@ -37,6 +37,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 31 | [Quick sort por ID: partição com pivô no fim](#31-quick-sort-por-id-partição-com-pivô-no-fim) | T09 |
 | 32 | [Merge sort por ID: intercalar os 5 arrays](#32-merge-sort-por-id-intercalar-os-5-arrays) | T10 |
 | 33 | [Função auxiliar `static`: `trocaLeitura`](#33-função-auxiliar-static-trocaleitura) | T06 a T10 |
+| 34 | [Acumulador com filtro: somar só o que interessa](#34-acumulador-com-filtro-somar-só-o-que-interessa) | T11 |
 
 ---
 
@@ -594,3 +595,28 @@ No bubble, é a troca do `j` = 1 da 1ª passada (`T06.md`, seção 2).
 **O que o `static` faz:** sem ele, qualquer `.c` do projeto poderia chamar `trocaLeitura` (o ligador junta todos, conceito 22). Com ele, a função é "particular" do `organizacao.c`: não entra no `kwatch.h` e não aparece para o `main.c`. Serve para separar o que o PDF pede (as 12 funções, no `kwatch.h`) do que é só ajuda interna. `particionaLeituras` (quick) e `intercalaLeituras` (merge) são `static` pelo mesmo motivo.
 
 **Cuidado:** a função `static` tem que estar escrita **acima** de quem a chama no arquivo, porque não tem protótipo no `.h` (conceito 18). E ela não é uma das 12 do PDF: as assinaturas pedidas continuam idênticas.
+
+## 34. Acumulador com filtro: somar só o que interessa
+
+**Em uma linha:** passo por todas as leituras; quando a unidade da leitura é a procurada, somo o consumo dela num `total` que começou em 0; no fim, devolvo o `total`.
+
+**Por que existe:** a opção 3 do menu (PDF p14) mostra o consumo total de uma unidade. As leituras da mesma unidade estão espalhadas pelo array (no PDF, a 101 está nas posições 0 e 1, a 203 nas 2 e 4), então é preciso olhar todas.
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `total` (`float`) | a soma dos consumos da unidade até agora | `0` (nada somado ainda) | `unidadeIds[i] == unidadeId`: `total += consumos[i]` |
+| `i` | a posição da leitura olhada | 0 | a cada volta, até `n - 1` |
+
+**Exemplo:** unidade 203 com os dados do PDF:
+
+| `i` | `unidadeIds[i]` | `consumos[i]` | é 203? | `total` depois |
+|---|---|---|---|---|
+| 0 | 101 | 245.5 | não | 0.0 |
+| 1 | 101 | 310.2 | não | 0.0 |
+| 2 | 203 | 185.7 | sim | 185.7 |
+| 3 | 150 | 420.0 | não | 185.7 |
+| 4 | 203 | 205.8 | sim | 391.5 |
+
+Devolve 391.5 (no menu, `391.50`).
+
+**Cuidado:** o `total` é `float`: em `int`, 245.5 + 310.2 perderia as casas. Sem `= 0`, ele começa com o lixo que estava na memória. E o `return total` fica **depois** do laço: dentro, devolveria só a primeira leitura.

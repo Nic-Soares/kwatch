@@ -82,7 +82,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 
 ### Análise de dados (PDF 4.4)
 
-- [ ] **T11** Implementar `calcularConsumoUnidade` (1 h, Sprint 1). R-35, R-36. Casos 18, 20 e 29.
+- [x] **T11** Implementar `calcularConsumoUnidade` (1 h, Sprint 1). R-35, R-36. Casos 18, 20 e 29.
 - [ ] **T12** Implementar `calcularConsumoPeriodo` (2 h, Sprint 2). R-37, R-38. Casos 22 e 23; limites conforme a dúvida D4.
 - [ ] **T13** Implementar `encontrarUnidadeMaiorConsumo` (2 h, Sprint 2). R-39, R-40, R-41. Casos 27 e 28.
 
