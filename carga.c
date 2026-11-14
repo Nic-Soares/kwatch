@@ -16,3 +16,14 @@ int carregarLeituras(const char nomeArquivo[], int ids[], int unidadeIds[], int 
   fclose(arq); // encerra a ligacao com o arquivo aberto no fopen; nao leio mais nada dele
   return n;    // devolve quantas linhas foram gravadas (posicoes 0 a n-1)
 }
+
+int carregarUnidades(const char nomeArquivo[], int unidadeIds[], char descricoes[][50], int max) {
+
+  FILE *arq; int n = 0; // arq guarda o arquivo aberto; n comeca em 0 e conta as linhas gravadas
+  arq = fopen(nomeArquivo, "r"); if (arq == NULL) return -1; // abre o arquivo para leitura; se nao abriu (NULL), devolve -1 sem ler nada
+
+  while (n < max && fscanf(arq, "%d;%49[^\r\n]", &unidadeIds[n], descricoes[n]) == 2) n++; // enquanto houver espaco (n < max) e o fscanf conseguir ler as 2 pecas, avanca para a proxima posicao
+
+  fclose(arq); // encerra a ligacao com o arquivo aberto no fopen; nao leio mais nada dele
+  return n;    // devolve quantas linhas foram gravadas (posicoes 0 a n-1)
+}

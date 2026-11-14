@@ -9,3 +9,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T00a.md](T00a.md) | entender o problema e os dados | concluída |
 | [T00b.md](T00b.md) | resolver o menu na mão | concluída |
 | [T00c.md](T00c.md) | mapa das 12 funções | em andamento |
+| [T03.md](T03.md) | `carregarUnidades` | concluída |
