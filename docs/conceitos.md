@@ -28,6 +28,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 22 | [Compilar × ligar e o `main`](#22-compilar--ligar-e-o-main) | T01 |
 | 23 | [Ler um arquivo: `fopen`, `fscanf`, `fclose`](#23-ler-um-arquivo-fopen-fscanf-fclose) | T02 |
 | 24 | [Carregar arquivo em arrays paralelos](#24-carregar-arquivo-em-arrays-paralelos) | T02 |
+| 25 | [Ler `id;descricao`: o `;` e o `%49[^\n]`](#25-ler-iddescricao-o--e-o-49n) | T03 |
 
 ---
 
@@ -354,3 +355,38 @@ devolve `n` = 3.
 | `n < max &&` na frente | o `&&` para no primeiro lado falso: com `n == max` o `fscanf` nem roda e nada é gravado em `ids[max]`, que não existe |
 
 **Cuidado:** sem o `n++` no corpo do laço, toda linha é gravada na posição 0, uma por cima da outra (fica só a última), e a função devolve 0. A ordem dos destinos no `fscanf` é a ordem das colunas no arquivo (`id unidade_id mes ano consumo`, PDF p2).
+
+## 25. Ler `id;descricao`: o `;` e o `%49[^\n]`
+
+**Em uma linha:** `fscanf(arq, "%d;%49[^\n]", &unidadeIds[n], descricoes[n])` lê o número, pula o `;` e lê o resto da linha, com os espaços, até no máximo 49 letras.
+
+**Por que existe:** no `unidades.csv` (PDF p2) as colunas são separadas por `;`, e a descrição tem espaços (`Laboratorio de Informatica`). O `%s` que você já conhece para no primeiro espaço, então leria só `Laboratorio`. E `descricoes[n]` tem 50 posições (PDF p5): 49 letras e o `'\0'` (conceito 5).
+
+**As peças do formato `"%d;%49[^\n]"`, lendo `101;Laboratorio de Informatica`:**
+
+| Peça | O que faz | Aqui |
+|---|---|---|
+| `%d` | lê um `int` | grava 101 em `unidadeIds[n]` |
+| `;` | um caractere comum no formato: o `fscanf` exige um `;` exatamente ali e o pula | consome o `;` |
+| `%[^\n]` | lê todo caractere que **não** é fim de linha (`^` = "não", `\n` = fim de linha); espaço entra | `Laboratorio de Informatica` |
+| `49` entre `%` e `[` | lê no máximo 49 caracteres; o `fscanf` põe o `'\0'` logo depois | no máximo as posições 0 a 48, com o `'\0'` em até a 49 |
+
+O `fscanf` devolve quantos valores gravou: aqui, 2 numa linha completa (o `;` não conta, ele não grava nada).
+
+**Exemplo:** `tests/pdf/unidades.csv` com `while (n < max && fscanf(arq, "%d;%49[^\n]", &unidadeIds[n], descricoes[n]) == 2) n++;`
+
+| `j` | `unidadeIds[j]` | `descricoes[j]` |
+|---|---|---|
+| 0 | 101 | Laboratorio de Informatica |
+| 1 | 203 | Biblioteca Central |
+| 2 | 150 | Bloco Administrativo |
+
+devolve `n` = 3. Com `%s` no lugar de `%49[^\n]`, `descricoes[0]` seria só `Laboratorio`; na volta seguinte o `%d` tentaria ler `de` como número, falharia, e a função devolveria 1.
+
+**Por que `descricoes[n]` vai sem `&`:** `descricoes[n]` é uma linha inteira da matriz (conceito 20), um array de `char`. Nome de array, passado para uma função, já é o endereço da posição 0 dele. Já `unidadeIds[n]` é um `int` só, e o `fscanf` precisa do endereço dele: `&unidadeIds[n]`.
+
+**Por que `[^\r\n]` no kwatch (sugestão):** arquivo salvo no Windows termina cada linha com `\r\n`. No Windows o `fopen` com `"r"` já tira o `\r`; no Mac ele chega ao `fscanf`, e com só `[^\n]` ficaria no fim da descrição (`"Laboratorio de Informatica\r"`). Com `%49[^\r\n]` a leitura para no que vier primeiro.
+
+**E o fim de linha?** O `%[^\n]` para **antes** do `\n` e o deixa no arquivo. Na volta seguinte, o `%d` pula espaços e fins de linha antes do número, então o `\n` some sem fazer nada.
+
+**Cuidado:** sem o `49`, uma descrição de 60 letras seria gravada até a posição 60 de uma linha que só tem 50 posições, por cima da linha seguinte. O `49` é o tamanho da linha (50) menos 1, por causa do `'\0'`. Material de fora do Vault (o Vault não tem material de arquivos): o `%[...]` é chamado de *scanset* na documentação do C.
