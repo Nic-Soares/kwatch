@@ -36,6 +36,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 30 | [Selection sort por ID: `pm` guarda a posição](#30-selection-sort-por-id-pm-guarda-a-posição) | T08 |
 | 31 | [Quick sort por ID: partição com pivô no fim](#31-quick-sort-por-id-partição-com-pivô-no-fim) | T09 |
 | 32 | [Merge sort por ID: intercalar os 5 arrays](#32-merge-sort-por-id-intercalar-os-5-arrays) | T10 |
+| 33 | [Função auxiliar `static`: `trocaLeitura`](#33-função-auxiliar-static-trocaleitura) | T06 a T10 |
 
 ---
 
@@ -574,3 +575,22 @@ Fim: o pivô troca com `i + 1` = 1: `ids` = 1, 3, 4; `p` = 1.
 **Por que o `aux`:** escrever direto no array apagaria leituras da direita que ainda não foram comparadas. As 5 colunas vão para os 5 `aux`; o dos consumos é `float`. No fim, `aux[t]` volta para a posição `inicio + t`.
 
 **Cuidado:** quando uma metade acaba, a sobra da outra é copiada inteira (dois laços depois do principal). Com `<=` na comparação (`ids[i] <= ids[j]`), em empate vai primeiro a da esquerda.
+
+## 33. Função auxiliar `static`: `trocaLeitura`
+
+**Em uma linha:** `trocaLeitura` troca duas leituras inteiras (as posições `a` e `b` nos 5 arrays) numa chamada só; o `static` na frente diz que ela só pode ser usada dentro do `organizacao.c`.
+
+**Por que existe:** toda ordenação troca leituras, e cada troca são 15 linhas (3 por array: guardar, copiar, devolver). Bubble, selection e quick trocam; escrever as 15 linhas em cada lugar repete código e abre espaço para esquecer um array (o erro de trocar só `ids`, conceito 9). Com a função, a troca fica escrita uma vez e cada ordenação só chama `trocaLeitura(..., j, j + 1)`.
+
+**Exemplo:** com os dados do PDF (p2) na ordem do arquivo, `trocaLeitura(ids, unidadeIds, meses, anos, consumos, 1, 2)`:
+
+| Posição | Antes | Depois |
+|---|---|---|
+| 1 | 3, 101, 2, 2026, 310.2 | 2, 203, 1, 2026, 185.7 |
+| 2 | 2, 203, 1, 2026, 185.7 | 3, 101, 2, 2026, 310.2 |
+
+No bubble, é a troca do `j` = 1 da 1ª passada (`T06.md`, seção 2).
+
+**O que o `static` faz:** sem ele, qualquer `.c` do projeto poderia chamar `trocaLeitura` (o ligador junta todos, conceito 22). Com ele, a função é "particular" do `organizacao.c`: não entra no `kwatch.h` e não aparece para o `main.c`. Serve para separar o que o PDF pede (as 12 funções, no `kwatch.h`) do que é só ajuda interna. `particionaLeituras` (quick) e `intercalaLeituras` (merge) são `static` pelo mesmo motivo.
+
+**Cuidado:** a função `static` tem que estar escrita **acima** de quem a chama no arquivo, porque não tem protótipo no `.h` (conceito 18). E ela não é uma das 12 do PDF: as assinaturas pedidas continuam idênticas.
