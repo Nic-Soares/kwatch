@@ -17,3 +17,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T08.md](T08.md) | `selectionSortLeituraPorId` | concluída |
 | [T09.md](T09.md) | `quickSortLeituraPorId` | concluída |
 | [T10.md](T10.md) | `mergeSortLeituraPorId` | concluída |
+| [T11.md](T11.md) | `calcularConsumoUnidade` | concluída |
