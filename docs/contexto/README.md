@@ -21,3 +21,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T12.md](T12.md) | `calcularConsumoPeriodo` | concluída |
 | [T13.md](T13.md) | `encontrarUnidadeMaiorConsumo` | concluída |
 | [T14.md](T14.md) | carga inicial no `main` | concluída |
+| [T15.md](T15.md) | laço do menu | concluída |
