@@ -40,6 +40,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 34 | [Acumulador com filtro: somar só o que interessa](#34-acumulador-com-filtro-somar-só-o-que-interessa) | T11 |
 | 35 | [Mês e ano como um número só](#35-mês-e-ano-como-um-número-só) | T12 |
 | 36 | [Maior total reaproveitando `calcularConsumoUnidade`](#36-maior-total-reaproveitando-calcularconsumounidade) | T13 |
+| 37 | [O `main` declara os arrays e carrega](#37-o-main-declara-os-arrays-e-carrega) | T14 |
 
 ---
 
@@ -673,3 +674,25 @@ Dezembro e janeiro ficam vizinhos, como no calendário.
 **A condição:** `total > melhorTotal || (total == melhorTotal && unidadeIds[i] < melhorId)`. O primeiro lado escolhe o maior consumo; o segundo é o desempate do PDF (p11): no empate, fica o **menor ID**.
 
 **Cuidado:** com `n` = 0 não há leitura para olhar (`unidadeIds[0]` não existe): (sugestão) devolver -1 antes do laço. O empate compara o **ID** (conceito 8), não a posição em que a unidade aparece.
+
+## 37. O `main` declara os arrays e carrega
+
+**Em uma linha:** o `main` cria os arrays (as funções só preenchem o que recebem), chama as duas cargas e, se alguma devolver -1, mostra o erro do PDF e termina com `return 0` antes do menu.
+
+**Por que existe:** as funções da T02 e da T03 recebem os arrays prontos (PDF p3, p4, p5); quem cria é o `main`. E o PDF (p12) manda encerrar se um arquivo não abrir.
+
+| No `main` | Por quê |
+|---|---|
+| `int ids[MAX], unidadeIds[MAX], meses[MAX], anos[MAX];` e `float consumos[MAX];` | os 5 arrays paralelos das leituras (conceito 3) |
+| `int unidadeIdsCatalogo[MAX];` e `char descricoes[MAX][50];` | o catálogo de unidades (conceito 20) |
+| `int n = carregarLeituras("leituras.txt", ids, unidadeIds, meses, anos, consumos, MAX);` | `n` é quantas leituras há; todas as outras funções recebem esse `n` |
+| `int nUnidades = carregarUnidades("unidades.csv", unidadeIdsCatalogo, descricoes, MAX);` | quantas unidades há no catálogo |
+
+**Exemplo** (PDF p12), pasta sem `leituras.txt`:
+
+```
+Erro ao abrir o arquivo leituras.txt.
+Encerrando o programa.
+```
+
+**Cuidado:** o `printf` precisa de `#include <stdio.h>` no `main.c`. O texto é idêntico ao do PDF, com o ponto final e o `\n`. Para o `unidades.csv`, a mensagem troca só o nome do arquivo (caso 2, provisório).

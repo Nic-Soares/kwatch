@@ -20,3 +20,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T11.md](T11.md) | `calcularConsumoUnidade` | concluída |
 | [T12.md](T12.md) | `calcularConsumoPeriodo` | concluída |
 | [T13.md](T13.md) | `encontrarUnidadeMaiorConsumo` | concluída |
+| [T14.md](T14.md) | carga inicial no `main` | concluída |
