@@ -41,6 +41,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 35 | [Mês e ano como um número só](#35-mês-e-ano-como-um-número-só) | T12 |
 | 36 | [Maior total reaproveitando `calcularConsumoUnidade`](#36-maior-total-reaproveitando-calcularconsumounidade) | T13 |
 | 37 | [O `main` declara os arrays e carrega](#37-o-main-declara-os-arrays-e-carrega) | T14 |
+| 38 | [Menu com `do`/`while` e `switch`](#38-menu-com-do-while-e-switch) | T15 |
 
 ---
 
@@ -696,3 +697,23 @@ Encerrando o programa.
 ```
 
 **Cuidado:** o `printf` precisa de `#include <stdio.h>` no `main.c`. O texto é idêntico ao do PDF, com o ponto final e o `\n`. Para o `unidades.csv`, a mensagem troca só o nome do arquivo (caso 2, provisório).
+
+## 38. Menu com `do`/`while` e `switch`
+
+**Em uma linha:** o `do`/`while` mostra o menu, lê a opção e repete até a opção 6; o `switch` escolhe o que fazer com cada número, e o `default` pega tudo que não é 1 a 6.
+
+**Por que existe:** o PDF (p12) manda o menu voltar depois das opções 1 a 5, encerrar na 6 com `Encerrando o programa.` e, em qualquer outro número, mostrar `Opcao invalida. Tente novamente.` e voltar.
+
+| Peça | O que faz | Por quê |
+|---|---|---|
+| `int opcao;` | guarda o número digitado | |
+| `do { ... } while (opcao != 6);` | roda o corpo **antes** de testar | o menu aparece antes de existir qualquer opção; com `while` na frente, `opcao` seria testada sem valor |
+| `printf` do menu | as 8 linhas do PDF p12, idênticas | saída idêntica (conceito 6) |
+| `scanf("%d", &opcao);` | lê a opção | |
+| `switch (opcao) { case 1: ... break; ... }` | um bloco por opção | mais limpo que 6 `if` encadeados |
+| `case 6:` | `printf("Encerrando o programa.\n");` | depois dele o `while (opcao != 6)` dá falso e o laço termina |
+| `default:` | `printf("Opcao invalida. Tente novamente.\n");` | 0, 7, 9, -1... |
+
+**Exemplo** (caso 5): entrada 9 e depois 6: menu, `Opcao invalida. Tente novamente.`, menu, `Encerrando o programa.`
+
+**Cuidado:** sem `break;` no fim de cada `case`, o C continua executando o `case` de baixo. Letra digitada no lugar de número trava o `scanf` (dúvida D17): tratar na T21.

@@ -89,7 +89,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 ### Main e menu (PDF p12 a p16)
 
 - [x] **T14** Implementar carga inicial e erro de abertura no `main` (2 h, Sprint 2). R-08, R-10, R-42, R-43, R-44, R-45. Casos 1 e 2.
-- [ ] **T15** Implementar laço do menu, saída e opção inválida (2 h, Sprint 2). R-46, R-47, R-72, R-73. Casos 3 a 6.
+- [x] **T15** Implementar laço do menu, saída e opção inválida (2 h, Sprint 2). R-46, R-47, R-72, R-73. Casos 3 a 6.
   - [ ] Depois do merge, criar a variável do repositório `FUMACA_ESTRITA=true` (o CI passa a exigir as mensagens do teste de fumaça)
 - [ ] **T16** Implementar opção 1, listar ordenadas (3 h, Sprint 2). R-48 a R-54. Casos 7 a 13.
 - [ ] **T17** Implementar opção 2, buscar leitura (2 h, Sprint 2). R-55 a R-60. Casos 14 a 17.
