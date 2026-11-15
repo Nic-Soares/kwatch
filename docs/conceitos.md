@@ -38,6 +38,8 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 32 | [Merge sort por ID: intercalar os 5 arrays](#32-merge-sort-por-id-intercalar-os-5-arrays) | T10 |
 | 33 | [Função auxiliar `static`: `trocaLeitura`](#33-função-auxiliar-static-trocaleitura) | T06 a T10 |
 | 34 | [Acumulador com filtro: somar só o que interessa](#34-acumulador-com-filtro-somar-só-o-que-interessa) | T11 |
+| 35 | [Mês e ano como um número só](#35-mês-e-ano-como-um-número-só) | T12 |
+| 36 | [Maior total reaproveitando `calcularConsumoUnidade`](#36-maior-total-reaproveitando-calcularconsumounidade) | T13 |
 
 ---
 
@@ -620,3 +622,54 @@ No bubble, é a troca do `j` = 1 da 1ª passada (`T06.md`, seção 2).
 Devolve 391.5 (no menu, `391.50`).
 
 **Cuidado:** o `total` é `float`: em `int`, 245.5 + 310.2 perderia as casas. Sem `= 0`, ele começa com o lixo que estava na memória. E o `return total` fica **depois** do laço: dentro, devolveria só a primeira leitura.
+
+## 35. Mês e ano como um número só
+
+**Em uma linha:** (sugestão) `ano * 12 + mes` transforma cada mês/ano num número que cresce de 1 em 1 a cada mês; aí "estar no período" vira `inicio <= numero && numero <= fim`.
+
+**Por que existe:** a `calcularConsumoPeriodo` (PDF p10) soma as leituras entre mês/ano inicial e final, inclusive (conceito 7; D4, provisório). Um período pode virar o ano (12/2025 até 01/2026, caso 23), e aí comparar o mês sozinho falha.
+
+**Exemplo:**
+
+| Mês/ano | `ano * 12 + mes` |
+|---|---|
+| 11/2025 | 24311 |
+| 12/2025 | 24312 |
+| 01/2026 | 24313 |
+
+Dezembro e janeiro ficam vizinhos, como no calendário.
+
+| Variável | O que guarda |
+|---|---|
+| `inicio` | `anoInicial * 12 + mesInicial` |
+| `fim` | `anoFinal * 12 + mesFinal` |
+| `atual` | `anos[i] * 12 + meses[i]`, a leitura da posição `i` |
+| `total` (`float`) | a soma, como no conceito 34 |
+
+**Cuidado:** com só os meses, de 12 até 1 nenhum mês é `>= 12` e `<= 1` ao mesmo tempo: a função devolveria 0 em vez de 250.00. A validação (`Periodo invalido.`, mês fora de 1 a 12 ou início depois do fim) é do menu, na T19 (PDF p15).
+
+## 36. Maior total reaproveitando `calcularConsumoUnidade`
+
+**Em uma linha:** (sugestão) para cada leitura, peço à `calcularConsumoUnidade` o total da unidade dela; se for maior que o melhor até agora, ou igual com ID menor, essa unidade vira a melhor; no fim, devolvo o ID da melhor.
+
+**Por que existe:** a opção 5 do menu (PDF p15) mostra a unidade de maior consumo. A soma por unidade já está pronta na T11; chamar a função evita escrever outro acumulador. Uma unidade aparece em várias leituras e é calculada de novo a cada vez, mas com no máximo 1000 leituras isso é rápido.
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `melhorId` | o ID da unidade vencedora até agora | `unidadeIds[0]` | a condição abaixo é verdadeira |
+| `melhorTotal` (`float`) | o total da unidade vencedora | o total de `unidadeIds[0]` | junto com `melhorId` |
+| `total` (`float`) | o total da unidade da leitura `i` | `calcularConsumoUnidade(unidadeIds, consumos, n, unidadeIds[i])` | a cada `i` |
+
+**Exemplo** (dados do PDF, p2):
+
+| `i` | `unidadeIds[i]` | total | Troca? | `melhorId` / `melhorTotal` |
+|---|---|---|---|---|
+| 0 | 101 | 555.7 | primeira | 101 / 555.7 |
+| 1 | 101 | 555.7 | não (igual, mesmo ID) | 101 / 555.7 |
+| 2 | 203 | 391.5 | não (menor) | 101 / 555.7 |
+| 3 | 150 | 420.0 | não (menor) | 101 / 555.7 |
+| 4 | 203 | 391.5 | não | 101 / 555.7 |
+
+**A condição:** `total > melhorTotal || (total == melhorTotal && unidadeIds[i] < melhorId)`. O primeiro lado escolhe o maior consumo; o segundo é o desempate do PDF (p11): no empate, fica o **menor ID**.
+
+**Cuidado:** com `n` = 0 não há leitura para olhar (`unidadeIds[0]` não existe): (sugestão) devolver -1 antes do laço. O empate compara o **ID** (conceito 8), não a posição em que a unidade aparece.
