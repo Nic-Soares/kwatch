@@ -100,9 +100,9 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 ### Testes, entrega e avaliação
 
 - [x] **T21** Rodar todos os casos de `tests/casos.md` (2 h, Sprint 2). R-04, R-07, R-24, R-41, R-44, R-58, R-62, R-68, R-69, R-73, R-91. Nada pode travar.
-- [ ] **T22** Congelar o código e conferir as saídas com o PDF em 16/11 (2 h, Sprint 2). R-44 a R-73 (saídas), R-75, R-87, R-91, R-95.
-  - [ ] Cada prompt e mensagem idênticos ao PDF; consumo com 2 casas decimais
-  - [ ] Correções da auditoria independente (16/11), uma por vez, na ordem; explicação em `docs/contexto/T22.md`:
+- [x] **T22** Congelar o código e conferir as saídas com o PDF em 16/11 (2 h, Sprint 2). R-44 a R-73 (saídas), R-75, R-87, R-91, R-95.
+  - [x] Cada prompt e mensagem idênticos ao PDF; consumo com 2 casas decimais
+  - [x] Correções da auditoria independente (16/11), uma por vez, na ordem (A5 aguarda a D9); explicação em `docs/contexto/T22.md`:
     - [x] A1 (alta) Opção 5 sem leituras: `idMaior == -1` vira `descricoes[-1]` (`main.c:169`, D12)
     - [x] A2 (média) Opções 1 e 2: unidade fora do catálogo vira `descricoes[-1]` (`main.c:80`, `main.c:115`)
     - [x] A3 (média) `carregarUnidades` para na 1ª descrição com mais de 49 caracteres (`carga.c:25`, PDF p5, D10)
@@ -113,7 +113,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
     - [x] A8 (baixa) Comentários desatualizados e com erro de digitação (`main.c:43`, 183, `busca.c:11`, acentos em `carga.c`)
     - [x] A9 (baixa) Estilo: chave na linha de baixo (`main.c:9`, 16), 7 arrays numa linha (`main.c:11`), só o `case 5` com `{}`, `encontrarUnidadeMaiorConsumo` sem comentários
     - [x] A10 (baixa) Espaços no fim da linha (`analise.c:38`, `main.c:80`, 84, 95, 111, 119, 123, 125, 164)
-  - [ ] Cabeçalho com nome e RA em todos os arquivos; CI verde; PR de `develop` para `main`
+  - [x] Cabeçalho com nome e RA em todos os arquivos; CI verde; PR de `develop` para `main`
 - [ ] **T23** Gerar o pacote da tag `v1.0.0` e entregar no Moodle até 18/11 (1 h, Sprint 2). R-74, R-75, R-81, R-86, R-88, R-90, R-92, R-93, R-94.
   - [ ] Pacote só com os `.c` e o `.h` da raiz (comando no CONTRIBUTING); dados conforme a dúvida D13
   - [ ] Compilar o pacote numa pasta vazia com o comando oficial antes de postar; guardar o comprovante
