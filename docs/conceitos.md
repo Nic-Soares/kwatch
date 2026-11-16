@@ -43,6 +43,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 37 | [O `main` declara os arrays e carrega](#37-o-main-declara-os-arrays-e-carrega) | T14 |
 | 38 | [Menu com `do`/`while` e `switch`](#38-menu-com-do-while-e-switch) | T15 |
 | 39 | [Opção 1: submenu uma vez e a descrição pelo catálogo](#39-opção-1-submenu-uma-vez-e-a-descrição-pelo-catálogo) | T16 |
+| 40 | [Opção 2: busca e o `ordenado` antes da binária](#40-opção-2-busca-e-o-ordenado-antes-da-binária) | T17 |
 
 ---
 
@@ -729,9 +730,9 @@ Encerrando o programa.
 |---|---|---|---|
 | `ordenado` | 0 se ainda não ordenou, 1 se já | `0`, declarada antes do `do` do menu | depois da ordenação do submenu: `ordenado = 1` |
 | `alg` | a escolha do submenu (1 a 5) | lida com `scanf` | só na primeira vez |
-| `pos` | a posição da unidade no catálogo | `buscaLinear(unidadeIdsCatalogo, nUnidade, unidadesIds[i])` | a cada leitura `i` |
+| `pos` | a posição da unidade no catálogo | `buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[i])` | a cada leitura `i` |
 
-**A descrição:** a `buscaLinear` da T04 procura um número num array e devolve a posição. Procurando `unidadesIds[i]` dentro de `unidadeIdsCatalogo`, ela devolve a posição `pos` da unidade no catálogo; a descrição é `descricoes[pos]`. Exemplo: a 101 está na posição 0 do catálogo, então `descricoes[0]` = `Laboratorio de Informatica`.
+**A descrição:** a `buscaLinear` da T04 procura um número num array e devolve a posição. Procurando `unidadeIds[i]` dentro de `unidadeIdsCatalogo`, ela devolve a posição `pos` da unidade no catálogo; a descrição é `descricoes[pos]`. Exemplo: a 101 está na posição 0 do catálogo, então `descricoes[0]` = `Laboratorio de Informatica`.
 
 **Exemplo** (PDF p13), uma linha da tabela:
 
@@ -739,6 +740,33 @@ Encerrando o programa.
 3 | 101 | Laboratorio de Informatica | 2 | 2026 | 310.20
 ```
 
-`printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadesIds[i], descricoes[pos], meses[i], anos[i], consumos[i]);`
+`printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadeIds[i], descricoes[pos], meses[i], anos[i], consumos[i]);`
 
 **Cuidado:** o separador tem 71 hífens (PDF p13). O consumo sai com `%.2f`. Opção inválida no submenu é a dúvida D8 (provisório: não ordena e não marca `ordenado`).
+
+## 40. Opção 2: busca e o `ordenado` antes da binária
+
+**Em uma linha:** peço o ID, pergunto a busca, chamo a busca escolhida e uso a posição que ela devolve para imprimir a leitura, ou a mensagem de não encontrada se ela devolver -1.
+
+**Por que existe:** a busca binária só funciona com `ids` em ordem (conceito da T05), e o `leituras.txt` vem fora de ordem (PDF p2). O PDF (p13) manda ordenar antes quando a binária for escolhida e a opção 1 ainda não tiver ordenado. A variável `ordenado` da T16 já diz isso.
+
+| Situação | `ordenado` | O que fazer antes da binária |
+|---|---|---|
+| a opção 1 já rodou | `1` | nada: `ids` já está em ordem |
+| a opção 1 ainda não rodou | `0` | ordenar os 5 arrays e fazer `ordenado = 1` |
+
+Qual ordenação usar aqui o PDF não diz (sugestão: `quickSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);`). Depois disso, a opção 1 não pergunta mais o algoritmo, porque `ordenado` já vale 1.
+
+**Exemplo** (dados do PDF, ID 3): a binária devolve `pos = 2` (depois de ordenar, o ID 3 está na posição 2). A descrição sai de uma segunda busca, igual à da opção 1: `buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[pos])`.
+
+```
+Leitura encontrada:
+ID Leitura: 3
+Unidade: 101
+Descricao: Laboratorio de Informatica
+Mes: 2
+Ano: 2026
+Consumo: 310.20 kWh
+```
+
+**Cuidado:** a busca devolve uma **posição**, não um ID: imprima `ids[pos]`, não `pos`. A linear funciona com `ids` fora de ordem e não precisa ordenar. Não achou (devolveu -1): `Leiura nao encontrada.`, com o erro de digitação do PDF (dúvida D5). Opção inválida no submenu é a D8.
