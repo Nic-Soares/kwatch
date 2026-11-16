@@ -17,6 +17,8 @@ static void trocaLeitura(int ids[], int unidadeIds[], int meses[], int anos[], f
   tc = consumos[a]; consumos[a] = consumos[b]; consumos[b] = tc;    // troca o consumo
 }
 
+/* Bubble sort (PDF p7): compara vizinhos e troca quando estão fora de ordem; a cada passada o maior id
+   que sobrou vai para o fim. Troca os 5 arrays juntos. */
 void bubbleSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[], float consumos[], int n) {
   // Laço de fora: controla o número de passadas necessárias para ordenar o vetor
   for (int i = 0; i < n - 1; i++) {
@@ -34,6 +36,8 @@ void bubbleSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[]
   }
 }
 
+/* Insertion sort (PDF p7): pega a leitura i e a insere na posição certa entre as já ordenadas à esquerda,
+   deslocando as maiores uma casa para a direita. Move os 5 arrays juntos. */
 void insertionSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[], float consumos[], int n) {
   // A posição 0 sozinha já está em ordem: começa inserindo a leitura da posição 1
   for (int i = 1; i < n; i++) {
@@ -67,6 +71,8 @@ void insertionSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int ano
   }
 }
 
+/* Selection sort (PDF p8): para cada posição i, procura o menor id do resto e troca com a posição i.
+   Troca os 5 arrays juntos. */
 void selectionSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[], float consumos[], int n) {
   // Cada passada põe na posição i o menor id que sobrou; a última posição fica certa sozinha
   for (int i = 0; i < n - 1; i++) {
@@ -107,6 +113,8 @@ static int particionaLeituras(int ids[], int unidadeIds[], int meses[], int anos
   return i + 1;
 }
 
+/* Quick sort (PDF p8): separa o pedaço inicio..fim em torno de um pivô e ordena cada lado chamando a
+   própria função. Chamada inicial: (..., 0, n - 1). */
 void quickSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[], float consumos[], int inicio, int fim) {
   // Caso base: pedaço com 0 ou 1 posição já está em ordem, não faz nada
   if (inicio < fim) {
@@ -167,6 +175,8 @@ static void intercalaLeituras(int ids[], int unidadeIds[], int meses[], int anos
   }
 }
 
+/* Merge sort (PDF p9): divide o pedaço inicio..fim ao meio, ordena cada metade chamando a própria função
+   e intercala as duas. Chamada inicial: (..., 0, n - 1). */
 void mergeSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[], float consumos[], int inicio, int fim) {
   // Caso base: pedaço com 0 ou 1 posição já está em ordem, não faz nada
   if (inicio < fim) {
