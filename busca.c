@@ -8,7 +8,7 @@
 
 int buscaLinear(int ids[], int n, int idProcurado) {
   for (int i = 0; i < n; i++) { // inicia laço e indice em 0, que vai até n - 1
-    if (ids[i] == idProcurado) return i; // se  o idProcurado for igual ao que o indece tras dentro do array, encontrou  e retorna a posição
+    if (ids[i] == idProcurado) return i; // se o valor na posição i é o procurado, devolve a posição i
   }
   return -1; // ao percorrer todo o array e não achar o valor procurado retorna -1
 }

@@ -21,3 +21,7 @@ Ambiguidades encontradas no enunciado. Ao receber a resposta, anote em **Respost
 | D15 | "Não compila e não gera o executável" zera, mas "Há erros de compilação" desconta 0,5. Qual é a diferença? | p16, p17 | R-87, R-91 | média | |
 | D16 | Os arrays podem ser globais ou devem ser locais no `main`, passados por parâmetro? | p3 | R-08, R-10 | baixa | |
 | D17 | Se o usuário digitar letras no menu, no ID ou no período, o que o programa deve fazer? (travar desconta 0,5) | p12 a p15 | R-73, R-91 | média | |
+| D18 | Os prompts terminam em `:` sem espaço depois? Há linha em branco entre o resultado de uma opção e o menu? (o texto do PDF não deixa claro) | p12 a p15 | R-46, R-55, R-61, R-65 | baixa | |
+| D19 | A opção 4 deve validar o ano (0 ou negativo)? O PDF só fala do mês e da ordem do período. | p15 | R-68, R-69 | baixa | |
+| D20 | O empate da opção 5 é igualdade exata dos totais `float`? Somas iguais no papel podem diferir no arredondamento. | p11, p15 | R-41 | baixa | |
+| D21 | Qual é a codificação e o fim de linha do `unidades.csv`? Com BOM UTF-8 (CSV salvo pelo Excel), o programa carrega 0 unidades; com CRLF funciona. | p2, p5 | R-16, R-17 | média | |

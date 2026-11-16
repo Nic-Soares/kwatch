@@ -731,7 +731,7 @@ Encerrando o programa.
 |---|---|---|---|
 | `ordenado` | 0 se ainda não ordenou, 1 se já | `0`, declarada antes do `do` do menu | depois da ordenação do submenu: `ordenado = 1` |
 | `alg` | a escolha do submenu (1 a 5) | lida com `scanf` | só na primeira vez |
-| `pos` | a posição da unidade no catálogo | `buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[i])` | a cada leitura `i` |
+| `pos` | a posição da unidade no catálogo | `buscaLinear(unidadeIdsCatalogo, nUnidades, unidadeIds[i])` | a cada leitura `i` |
 
 **A descrição:** a `buscaLinear` da T04 procura um número num array e devolve a posição. Procurando `unidadeIds[i]` dentro de `unidadeIdsCatalogo`, ela devolve a posição `pos` da unidade no catálogo; a descrição é `descricoes[pos]`. Exemplo: a 101 está na posição 0 do catálogo, então `descricoes[0]` = `Laboratorio de Informatica`.
 
@@ -758,7 +758,7 @@ Encerrando o programa.
 
 Qual ordenação usar aqui o PDF não diz (sugestão: `quickSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);`). Depois disso, a opção 1 não pergunta mais o algoritmo, porque `ordenado` já vale 1.
 
-**Exemplo** (dados do PDF, ID 3): a binária devolve `pos = 2` (depois de ordenar, o ID 3 está na posição 2). A descrição sai de uma segunda busca, igual à da opção 1: `buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[pos])`.
+**Exemplo** (dados do PDF, ID 3): a binária devolve `pos = 2` (depois de ordenar, o ID 3 está na posição 2). A descrição sai de uma segunda busca, igual à da opção 1: `buscaLinear(unidadeIdsCatalogo, nUnidades, unidadeIds[pos])`.
 
 ```
 Leitura encontrada:
