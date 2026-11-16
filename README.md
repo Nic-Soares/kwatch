@@ -8,9 +8,23 @@ O programa carrega leituras de consumo (`leituras.txt`) e o cadastro de unidades
 
 O programa abre `leituras.txt` e `unidades.csv` **da pasta onde ele é executado**. Por isso os comandos abaixo entram numa pasta de dados de teste antes de rodar.
 
+### Requisito: compilador C (`gcc`)
+
+Confira se já tem com `gcc --version`. Se aparecer "não reconhecido" ou "command not found", instale:
+
+| Sistema | Como instalar | Depois |
+|---|---|---|
+| Windows 10/11 | no PowerShell: `winget install --id BrechtSanders.WinLibs.POSIX.UCRT -e` (GCC MinGW-w64, o mesmo tipo do CI) | **feche e abra o PowerShell** de novo; se o `gcc` ainda não for reconhecido, reinicie o Windows |
+| Windows sem `winget` | baixe o `.zip` "UCRT runtime, POSIX threads, Win64" em https://winlibs.com, extraia em `C:\mingw64` e acrescente `C:\mingw64\bin` ao `Path` (Configurações → Sistema → Sobre → Configurações avançadas do sistema → Variáveis de ambiente) | abra um terminal novo |
+| macOS | no Terminal: `xcode-select --install` (instala o `clang`, que atende pelo nome `gcc`) | — |
+| Linux (Debian/Ubuntu) | `sudo apt install build-essential` | — |
+| Linux (Fedora) | `sudo dnf install gcc` | — |
+
+Testado em 16/11/2026: Windows com `gcc.exe (MinGW-W64 x86_64-ucrt-posix-seh) 16.2.0` e macOS com o `clang` do Xcode.
+
 ### Windows (como o professor avalia, PDF p16)
 
-No Prompt de Comando (`cmd`), na pasta do repositório:
+No PowerShell ou no Prompt de Comando, **na pasta onde estão os `.c`**:
 
 ```
 gcc -o main.exe *.c *.h
@@ -19,6 +33,8 @@ cd tests\pdf
 ```
 
 O CI (`.github/workflows/build.yml`) compila exatamente com `gcc -o main.exe *.c *.h` em `windows-latest`. Sem nenhum `.h` na pasta, esse comando falha no Windows; o `kwatch.h` resolve.
+
+Se aparecer `cc1.exe: fatal error: *.c: Invalid argument`, você **não está na pasta dos `.c`**: o `gcc` não achou nenhum arquivo. Rode `dir` para conferir. Ao extrair o `.zip` baixado do GitHub, o Windows costuma criar uma pasta dentro da outra (`kwatch-main\kwatch-main`): entre na de dentro com `cd kwatch-main`.
 
 ### macOS e Linux
 
