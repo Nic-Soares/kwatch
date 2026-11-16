@@ -6,21 +6,27 @@
 #include "kwatch.h"
 #include <stdio.h>
 
-int main ()
-{
-  int ids[MAX]; int unidadeIds[MAX]; int meses[MAX]; int anos[MAX]; float consumos[MAX]; int unidadeIdsCatalogo[MAX]; char descricoes[MAX][50];
+int main() {
+  // leituras (PDF p3): a leitura i está na posição i dos 5 arrays
+  int ids[MAX];                // id de cada leitura
+  int unidadeIds[MAX];         // unidade de cada leitura
+  int meses[MAX];              // mês de cada leitura
+  int anos[MAX];               // ano de cada leitura
+  float consumos[MAX];         // consumo (kWh) de cada leitura
+  // catálogo de unidades (PDF p3): a unidade j está na posição j dos 2 arrays
+  int unidadeIdsCatalogo[MAX]; // número de cada unidade
+  char descricoes[MAX][50];    // descrição de cada unidade (até 49 caracteres + '\0')
 
   int n = carregarLeituras("leituras.txt", ids, unidadeIds, meses, anos, consumos, MAX);
 
-  if (n == -1)
-  {
+  if (n == -1) {
     printf("Erro ao abrir o arquivo leituras.txt.\nEncerrando o programa.\n");
     return 0;
   }
 
-  int nUnidade = carregarUnidades("unidades.csv", unidadeIdsCatalogo, descricoes, MAX);
+  int nUnidades = carregarUnidades("unidades.csv", unidadeIdsCatalogo, descricoes, MAX);
 
-  if (nUnidade == -1) {
+  if (nUnidades == -1) {
     printf("Erro ao abrir o arquivo unidades.csv.\nEncerrando o programa.\n");
     return 0;
   }
@@ -40,7 +46,7 @@ int main ()
     if (scanf("%d", &opcao) != 1) {
       if (feof(stdin)) opcao = 6;
       else { scanf("%*s"); opcao = 0; }
-    } // lê o número digitado e guarda em opcao
+    } // lê a opção; letra vira opção inválida (0) e fim da entrada vira sair (6)
 
     switch (opcao) {       // escolhe o bloco pelo valor de opcao
       case 1:
@@ -53,9 +59,9 @@ int main ()
           printf("5. Merge Sort\n");
           printf("Opcao:");
 
-          int alg;
-          scanf("%d", &alg);
-          switch (alg) {
+          int algOrdenacao = 0;
+          scanf("%d", &algOrdenacao);
+          switch (algOrdenacao) {
             case 1: bubbleSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, n);
               break;
             case 2: insertionSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, n);
@@ -67,7 +73,7 @@ int main ()
             case 5: mergeSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);
               break;
           }
-          if (alg < 1 || alg > 5) {
+          if (algOrdenacao < 1 || algOrdenacao > 5) {
             printf("Opcao invalida. Tente novamente.\n");
             break;
           }
@@ -77,23 +83,28 @@ int main ()
         printf("ID | Unidade | Descricao | Mes | Ano | Consumo (kWh)\n");
         printf("-----------------------------------------------------------------------\n");
         for (int i = 0; i < n; i++) {
-          int pos = buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[i]); 
-          printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadeIds[i], descricoes[pos], meses[i], anos[i], consumos[i]);
+          int posCatalogo = buscaLinear(unidadeIdsCatalogo, nUnidades, unidadeIds[i]);
+          if (posCatalogo == -1) {
+            printf("%d | %d |  | %d | %d | %.2f\n", ids[i], unidadeIds[i], meses[i], anos[i], consumos[i]);
+          } else {
+            printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadeIds[i], descricoes[posCatalogo], meses[i], anos[i], consumos[i]);
+          }
+
         }
         break;             // sai do switch; sem ele, roda o case de baixo também
-        
+
       case 2:
         printf("Digite o ID da leitura:");
-        int idProcurado; int busca; int pos = -1;
+        int idProcurado = 0; int algBusca = 0; int pos = -1;
         scanf("%d", &idProcurado);
 
         printf("Escolha o algoritmo de busca:\n");
         printf("1. Busca linear\n");
         printf("2. Busca binaria\n");
         printf("Opcao:");
-        scanf("%d", &busca);
-        
-        switch (busca) {
+        scanf("%d", &algBusca);
+
+        switch (algBusca) {
           case 1:
             pos = buscaLinear(ids, n, idProcurado);
             break;
@@ -107,43 +118,48 @@ int main ()
         }
 
         if (pos != -1) {
-          int posDesc = buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[pos]);
-          
+          int posCatalogo = buscaLinear(unidadeIdsCatalogo, nUnidades, unidadeIds[pos]);
+
           printf("Leitura encontrada:\n");
           printf("ID Leitura: %d\n", ids[pos]);
           printf("Unidade: %d\n", unidadeIds[pos]);
-          printf("Descricao: %s\n", descricoes[posDesc]);
+          if (posCatalogo == -1) {
+            printf("Descricao: \n");
+          } else {
+            printf("Descricao: %s\n", descricoes[posCatalogo]);
+          }
           printf("Mes: %d\n", meses[pos]);
           printf("Ano: %d\n", anos[pos]);
           printf("Consumo: %.2f kWh\n", consumos[pos]);
-          
+
         } else {
           printf("Leiura nao encontrada.\n");
         }
-        
+
         break;
-        
+
       case 3:
         printf("Digite o ID da unidade:");
-        int idUnidade; int posUni; float totalConsumo = 0.0;
+        int idUnidade = 0; int posCatalogo; float totalUnidade;
         scanf("%d", &idUnidade);
 
-        posUni = buscaLinear(unidadeIdsCatalogo, nUnidade, idUnidade);
+        posCatalogo = buscaLinear(unidadeIdsCatalogo, nUnidades, idUnidade);
 
-        if (posUni == -1) {
+        if (posCatalogo == -1) {
           printf("Unidade nao encontrada.\n");
         } else {
-          totalConsumo = calcularConsumoUnidade(unidadeIds, consumos, n, idUnidade);
+          totalUnidade = calcularConsumoUnidade(unidadeIds, consumos, n, idUnidade);
 
           printf("Consumo da unidade:\n");
           printf("Unidade: %d\n", idUnidade);
-          printf("Descricao: %s\n", descricoes[posUni]);
-          printf("Consumo total: %.2f kWh\n", totalConsumo);
+          printf("Descricao: %s\n", descricoes[posCatalogo]);
+          printf("Consumo total: %.2f kWh\n", totalUnidade);
         }
         break;
+
       case 4:
         printf("Digite o mes inicial:");
-        int mesInicial; int mesFinal; int anoInicial; int anoFinal; float TotalConsumoPeriodo = 0.0;
+        int mesInicial = 0; int mesFinal = 0; int anoInicial = 0; int anoFinal = 0; float totalPeriodo;
         scanf("%d", &mesInicial);
         printf("Digite o ano inicial:");
         scanf("%d", &anoInicial);
@@ -155,32 +171,38 @@ int main ()
         if (mesInicial < 1 || mesInicial > 12 || mesFinal < 1 || mesFinal > 12 || anoInicial * 12 + mesInicial > anoFinal * 12 + mesFinal) {
           printf("Periodo invalido.\n");
         } else {
-          TotalConsumoPeriodo = calcularConsumoPeriodo(meses, anos, consumos, n, mesInicial, anoInicial, mesFinal, anoFinal);
+          totalPeriodo = calcularConsumoPeriodo(meses, anos, consumos, n, mesInicial, anoInicial, mesFinal, anoFinal);
 
           printf("Consumo no periodo:\n");
           printf("Periodo: %02d/%d ate %02d/%d\n", mesInicial, anoInicial, mesFinal, anoFinal);
-          printf("Consumo total: %.2f kWh\n", TotalConsumoPeriodo);
+          printf("Consumo total: %.2f kWh\n", totalPeriodo);
         }
-        
+
         break;
+
       case 5:
         {
-          int idMaior; float totalMaior; int posicaoMaior;
+          int idMaior; float totalMaior; int posCatalogo;
           idMaior = encontrarUnidadeMaiorConsumo(unidadeIds, consumos,n);
+          if (idMaior == -1) {
+            printf("Nenhuma leitura carregada.\n");
+            break;
+          }
           totalMaior = calcularConsumoUnidade(unidadeIds, consumos, n, idMaior);
-          posicaoMaior = buscaLinear(unidadeIdsCatalogo, nUnidade, idMaior);
+          posCatalogo = buscaLinear(unidadeIdsCatalogo, nUnidades, idMaior);
 
           printf("Unidade com maior consumo:\n");
           printf("Unidade: %d\n", idMaior);
-          printf("Descricao: %s\n", descricoes[posicaoMaior]);
+          printf("Descricao: %s\n", descricoes[posCatalogo]);
           printf("Consumo total: %.2f kWh\n", totalMaior);
         }
 
         break;
+
       case 6:
         printf("Encerrando o programa.\n");
         break;
-      default:             // qualquer número que não é 1 a 6
+      default:             // qualquer número fora de 1 a 6 (ou letra, que virou 0)
         printf("Opcao invalida. Tente novamente.\n");
         break;
     }                      // fecha o switch

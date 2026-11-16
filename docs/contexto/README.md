@@ -27,3 +27,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T18.md](T18.md) | opção 3, consumo de unidade | concluída |
 | [T19.md](T19.md) | opção 4, consumo no período | concluída |
 | [T20.md](T20.md) | opção 5, maior consumo | concluída |
+| [T22.md](T22.md) | correções da auditoria e congelamento | em andamento |
