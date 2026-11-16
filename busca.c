@@ -14,7 +14,7 @@ int buscaLinear(int ids[], int n, int idProcurado) {
 }
 
 int buscaBinaria(int ids[], int n, int idProcurado) {
-  int ini = 0;
+  int ini = 0; // o início começa na primeira posição do array
   int fim = n - 1; // o fim deve começar no último índice válido do array (n - 1)
 
   while (ini <= fim) { // continua enquanto houver espaço de busca válido
