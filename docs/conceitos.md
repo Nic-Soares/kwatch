@@ -42,6 +42,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 36 | [Maior total reaproveitando `calcularConsumoUnidade`](#36-maior-total-reaproveitando-calcularconsumounidade) | T13 |
 | 37 | [O `main` declara os arrays e carrega](#37-o-main-declara-os-arrays-e-carrega) | T14 |
 | 38 | [Menu com `do`/`while` e `switch`](#38-menu-com-do-while-e-switch) | T15 |
+| 39 | [Opção 1: submenu uma vez e a descrição pelo catálogo](#39-opção-1-submenu-uma-vez-e-a-descrição-pelo-catálogo) | T16 |
 
 ---
 
@@ -717,3 +718,27 @@ Encerrando o programa.
 **Exemplo** (caso 5): entrada 9 e depois 6: menu, `Opcao invalida. Tente novamente.`, menu, `Encerrando o programa.`
 
 **Cuidado:** sem `break;` no fim de cada `case`, o C continua executando o `case` de baixo. Letra digitada no lugar de número trava o `scanf` (dúvida D17): tratar na T21.
+
+## 39. Opção 1: submenu uma vez e a descrição pelo catálogo
+
+**Em uma linha:** na primeira vez, pergunto o algoritmo, ordeno os 5 arrays e marco `ordenado = 1`; em toda vez, imprimo o cabeçalho e uma linha por leitura, buscando a descrição no catálogo pela unidade.
+
+**Por que existe:** o PDF (p13) diz que a escolha do algoritmo só é feita na primeira vez; depois os arrays já estão em ordem e a lista sai direto (caso 13). E a tabela mostra a descrição, que não está nas leituras (conceito 1).
+
+| Variável | O que guarda | Começa em | Muda quando |
+|---|---|---|---|
+| `ordenado` | 0 se ainda não ordenou, 1 se já | `0`, declarada antes do `do` do menu | depois da ordenação do submenu: `ordenado = 1` |
+| `alg` | a escolha do submenu (1 a 5) | lida com `scanf` | só na primeira vez |
+| `pos` | a posição da unidade no catálogo | `buscaLinear(unidadeIdsCatalogo, nUnidade, unidadesIds[i])` | a cada leitura `i` |
+
+**A descrição:** a `buscaLinear` da T04 procura um número num array e devolve a posição. Procurando `unidadesIds[i]` dentro de `unidadeIdsCatalogo`, ela devolve a posição `pos` da unidade no catálogo; a descrição é `descricoes[pos]`. Exemplo: a 101 está na posição 0 do catálogo, então `descricoes[0]` = `Laboratorio de Informatica`.
+
+**Exemplo** (PDF p13), uma linha da tabela:
+
+```
+3 | 101 | Laboratorio de Informatica | 2 | 2026 | 310.20
+```
+
+`printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadesIds[i], descricoes[pos], meses[i], anos[i], consumos[i]);`
+
+**Cuidado:** o separador tem 71 hífens (PDF p13). O consumo sai com `%.2f`. Opção inválida no submenu é a dúvida D8 (provisório: não ordena e não marca `ordenado`).
