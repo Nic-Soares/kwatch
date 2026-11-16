@@ -34,6 +34,7 @@ int main() {
   int opcao; int ordenado = 0;
 
   do {
+    printf("\n"); // linha em branco: separa o menu do resultado da opção anterior
     printf("===== SISTEMA DE ANALISE DE CONSUMO DE ENERGIA =====\n");
     printf("1. Mostrar leituras ordenadas por ID\n");
     printf("2. Buscar leitura por ID\n");
@@ -79,6 +80,7 @@ int main() {
           }
           ordenado = 1;
         }
+        printf("\n"); // linha em branco: separa as perguntas do resultado
         printf("Leituras ordenadas por ID:\n");
         printf("ID | Unidade | Descricao | Mes | Ano | Consumo (kWh)\n");
         printf("-----------------------------------------------------------------------\n");
@@ -103,6 +105,7 @@ int main() {
         printf("2. Busca binaria\n");
         printf("Opcao:");
         scanf("%d", &algBusca);
+        printf("\n"); // linha em branco: separa as perguntas do resultado
 
         switch (algBusca) {
           case 1:
@@ -142,6 +145,7 @@ int main() {
         printf("Digite o ID da unidade:");
         int idUnidade = 0; int posCatalogo; float totalUnidade;
         scanf("%d", &idUnidade);
+        printf("\n"); // linha em branco: separa as perguntas do resultado
 
         posCatalogo = buscaLinear(unidadeIdsCatalogo, nUnidades, idUnidade);
 
@@ -167,6 +171,7 @@ int main() {
         scanf("%d", &mesFinal);
         printf("Digite o ano final:");
         scanf("%d", &anoFinal);
+        printf("\n"); // linha em branco: separa as perguntas do resultado
 
         if (mesInicial < 1 || mesInicial > 12 || mesFinal < 1 || mesFinal > 12 || anoInicial * 12 + mesInicial > anoFinal * 12 + mesFinal) {
           printf("Periodo invalido.\n");
@@ -183,6 +188,7 @@ int main() {
       case 5:
         {
           int idMaior; float totalMaior; int posCatalogo;
+          printf("\n"); // linha em branco: separa as perguntas do resultado
           idMaior = encontrarUnidadeMaiorConsumo(unidadeIds, consumos,n);
           if (idMaior == -1) {
             printf("Nenhuma leitura carregada.\n");
