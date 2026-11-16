@@ -37,7 +37,10 @@ int main ()
     printf("6. Sair da aplicacao\n");
     printf("Escolha uma opcao:");
 
-    scanf("%d", &opcao); // lê o número digitado e guarda em opcao
+    if (scanf("%d", &opcao) != 1) {
+      if (feof(stdin)) opcao = 6;
+      else { scanf("%*s"); opcao = 0; }
+    } // lê o número digitado e guarda em opcao
 
     switch (opcao) {       // escolhe o bloco pelo valor de opcao
       case 1:
@@ -64,6 +67,10 @@ int main ()
             case 5: mergeSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);
               break;
           }
+          if (alg < 1 || alg > 5) {
+            printf("Opcao invalida. Tente novamente.\n");
+            break;
+          }
           ordenado = 1;
         }
         printf("Leituras ordenadas por ID:\n");
@@ -77,7 +84,7 @@ int main ()
         
       case 2:
         printf("Digite o ID da leitura:");
-        int idProcurado; int busca; int pos;
+        int idProcurado; int busca; int pos = -1;
         scanf("%d", &idProcurado);
 
         printf("Escolha o algoritmo de busca:\n");
