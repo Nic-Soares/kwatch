@@ -95,7 +95,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 - [x] **T17** Implementar opção 2, buscar leitura (2 h, Sprint 2). R-55 a R-60. Casos 14 a 17.
 - [x] **T18** Implementar opção 3, consumo de unidade (1 h, Sprint 2). R-61 a R-64. Casos 18 a 21 e 29.
 - [x] **T19** Implementar opção 4, consumo no período (2 h, Sprint 2). R-65 a R-69. Casos 22 a 26.
-- [ ] **T20** Implementar opção 5, maior consumo (1 h, Sprint 2). R-41, R-70, R-71. Casos 27 e 28.
+- [x] **T20** Implementar opção 5, maior consumo (1 h, Sprint 2). R-41, R-70, R-71. Casos 27 e 28.
 
 ### Testes, entrega e avaliação
 

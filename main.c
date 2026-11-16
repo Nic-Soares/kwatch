@@ -157,6 +157,18 @@ int main ()
         
         break;
       case 5:
+        {
+          int idMaior; float totalMaior; int posicaoMaior;
+          idMaior = encontrarUnidadeMaiorConsumo(unidadeIds, consumos,n);
+          totalMaior = calcularConsumoUnidade(unidadeIds, consumos, n, idMaior);
+          posicaoMaior = buscaLinear(unidadeIdsCatalogo, nUnidade, idMaior);
+
+          printf("Unidade com maior consumo:\n");
+          printf("Unidade: %d\n", idMaior);
+          printf("Descricao: %s\n", descricoes[posicaoMaior]);
+          printf("Consumo total: %.2f kWh\n", totalMaior);
+        }
+
         break;
       case 6:
         printf("Encerrando o programa.\n");
