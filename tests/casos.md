@@ -38,5 +38,7 @@ Dados:
 | 27 | Unidade de maior consumo (R-40, R-71) | pdf | `5`, `6` | `Unidade: 101`, `Laboratorio de Informatica`, `Consumo total: 555.70 kWh` |
 | 28 | Empate: menor ID (R-41) | borda | `5`, `6` | `Unidade: 300`, `Laboratorio de Redes`, `Consumo total: 125.00 kWh` |
 | 29 | Consumo zero conta como leitura (R-36) | borda | `3`, `302`, `6` | `Consumo total: 0.00 kWh` |
-| 30 | Opção inválida no submenu de algoritmo (R-48, R-56) | pdf | `1`, `7`, `6` | **(dúvida)** sem travar |
-| 31 | Entrada não numérica (R-91) | pdf | `a`, `6` | **(dúvida)** sem travar nem entrar em laço infinito |
+| 30 | Opção inválida no submenu de algoritmo (R-48, R-56) | pdf | `1`, `7`, `6` | `Opcao invalida. Tente novamente.`, não lista e não marca `ordenado` **(dúvida D8, provisório)** |
+| 30b | Opção inválida no submenu de busca (R-56) | pdf | `2`, `3`, `7`, `6` | `Leiura nao encontrada.` (`pos` começa em -1) **(dúvida D8, provisório)** |
+| 31 | Entrada não numérica (R-91) | pdf | `a`, `6` | `Opcao invalida. Tente novamente.` e depois `Encerrando o programa.` **(dúvida D17, provisório)** |
+| 32 | Entrada acaba sem o 6 (R-91) | pdf | `9` (e fim da entrada) | `Encerrando o programa.`, sem laço infinito **(dúvida D17, provisório)** |

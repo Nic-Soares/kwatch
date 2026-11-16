@@ -99,7 +99,7 @@ Critério de pronto destas tarefas: as respostas conferidas com o PDF e com `tes
 
 ### Testes, entrega e avaliação
 
-- [ ] **T21** Rodar todos os casos de `tests/casos.md` (2 h, Sprint 2). R-04, R-07, R-24, R-41, R-44, R-58, R-62, R-68, R-69, R-73, R-91. Nada pode travar.
+- [x] **T21** Rodar todos os casos de `tests/casos.md` (2 h, Sprint 2). R-04, R-07, R-24, R-41, R-44, R-58, R-62, R-68, R-69, R-73, R-91. Nada pode travar.
 - [ ] **T22** Congelar o código e conferir as saídas com o PDF em 16/11 (2 h, Sprint 2). R-44 a R-73 (saídas), R-75, R-87, R-91, R-95.
   - [ ] Cada prompt e mensagem idênticos ao PDF; consumo com 2 casas decimais
   - [ ] Cabeçalho com nome e RA em todos os arquivos; CI verde; PR de `develop` para `main`
