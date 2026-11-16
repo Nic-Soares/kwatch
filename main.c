@@ -115,7 +115,24 @@ int main ()
         }
         
         break;
+        
       case 3:
+        printf("Digite o ID da unidade:");
+        int idUnidade; int posUni; float totalConsumo = 0.0;
+        scanf("%d", &idUnidade);
+
+        posUni = buscaLinear(unidadeIdsCatalogo, nUnidade, idUnidade);
+
+        if (posUni == -1) {
+          printf("Unidade nao encontrada.\n");
+        } else {
+          totalConsumo = calcularConsumoUnidade(unidadeIds, consumos, n, idUnidade);
+
+          printf("Consumo da unidade:\n");
+          printf("Unidade: %d\n", idUnidade);
+          printf("Descricao: %s\n", descricoes[posUni]);
+          printf("Consumo total: %.2f kWh\n", totalConsumo);
+        }
         break;
       case 4:
         break;
