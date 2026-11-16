@@ -25,3 +25,4 @@ Tarefas de entendimento antes do código (T00a a T00c do [roadmap](../roadmap.md
 | [T16.md](T16.md) | opção 1, listar ordenadas | concluída |
 | [T17.md](T17.md) | opção 2, buscar leitura | concluída |
 | [T18.md](T18.md) | opção 3, consumo de unidade | concluída |
+| [T19.md](T19.md) | opção 4, consumo no período | concluída |

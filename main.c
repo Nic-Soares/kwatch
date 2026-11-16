@@ -135,6 +135,26 @@ int main ()
         }
         break;
       case 4:
+        printf("Digite o mes inicial:");
+        int mesInicial; int mesFinal; int anoInicial; int anoFinal; float TotalConsumoPeriodo = 0.0;
+        scanf("%d", &mesInicial);
+        printf("Digite o ano inicial:");
+        scanf("%d", &anoInicial);
+        printf("Digite o mes final:");
+        scanf("%d", &mesFinal);
+        printf("Digite o ano final:");
+        scanf("%d", &anoFinal);
+
+        if (mesInicial < 1 || mesInicial > 12 || mesFinal < 1 || mesFinal > 12 || anoInicial * 12 + mesInicial > anoFinal * 12 + mesFinal) {
+          printf("Periodo invalido.\n");
+        } else {
+          TotalConsumoPeriodo = calcularConsumoPeriodo(meses, anos, consumos, n, mesInicial, anoInicial, mesFinal, anoFinal);
+
+          printf("Consumo no periodo:\n");
+          printf("Periodo: %02d/%d ate %02d/%d\n", mesInicial, anoInicial, mesFinal, anoFinal);
+          printf("Consumo total: %.2f kWh\n", TotalConsumoPeriodo);
+        }
+        
         break;
       case 5:
         break;

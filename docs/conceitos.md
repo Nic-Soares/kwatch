@@ -44,6 +44,7 @@ O porquê de cada coisa aprendida no kwatch, na ordem em que apareceu. Cada conc
 | 38 | [Menu com `do`/`while` e `switch`](#38-menu-com-do-while-e-switch) | T15 |
 | 39 | [Opção 1: submenu uma vez e a descrição pelo catálogo](#39-opção-1-submenu-uma-vez-e-a-descrição-pelo-catálogo) | T16 |
 | 40 | [Opção 2: busca e o `ordenado` antes da binária](#40-opção-2-busca-e-o-ordenado-antes-da-binária) | T17 |
+| 41 | [Opção 4: validar o período e o `%02d`](#41-opção-4-validar-o-período-e-o-02d) | T19 |
 
 ---
 
@@ -770,3 +771,30 @@ Consumo: 310.20 kWh
 ```
 
 **Cuidado:** a busca devolve uma **posição**, não um ID: imprima `ids[pos]`, não `pos`. A linear funciona com `ids` fora de ordem e não precisa ordenar. Não achou (devolveu -1): `Leiura nao encontrada.`, com o erro de digitação do PDF (dúvida D5). Opção inválida no submenu é a D8.
+
+## 41. Opção 4: validar o período e o `%02d`
+
+**Em uma linha:** antes de somar, confiro se os dois meses estão entre 1 e 12 e se o início não vem depois do fim; se algo falhar, `Periodo invalido.` e não calculo nada.
+
+**Por que existe:** o PDF (p15) manda recusar mês fora de 1 a 12 e início posterior ao fim. A função `calcularConsumoPeriodo` só soma; quem valida é o `main`.
+
+| Motivo | Condição que torna inválido |
+|---|---|
+| mês fora de 1 a 12 | `mesIni < 1 \|\| mesIni > 12 \|\| mesFim < 1 \|\| mesFim > 12` |
+| início depois do fim | `anoIni * 12 + mesIni > anoFim * 12 + mesFim` (conceito 35) |
+
+As duas juntas num `if` só, com `||` entre elas: se **qualquer** uma for verdadeira, é inválido.
+
+**Por que não comparar só o mês:** 12/2025 até 1/2026 tem `mesIni = 12` maior que `mesFim = 1`, mas é válido (caso 23). Com o número único: 2025 × 12 + 12 = 24312 e 2026 × 12 + 1 = 24313, e 24312 não é maior que 24313.
+
+**O `%02d`:** imprime o inteiro com no mínimo 2 dígitos, completando com zero à esquerda. `printf("%02d", 1)` sai `01`; `printf("%02d", 12)` sai `12`. O PDF mostra `Periodo: 01/2026 ate 02/2026`, então o mês sai com `%02d` e o ano com `%d`.
+
+**Exemplo** (caso 22, dados do PDF):
+
+```
+Consumo no periodo:
+Periodo: 01/2026 ate 02/2026
+Consumo total: 1367.20 kWh
+```
+
+**Cuidado:** `ate` e `periodo` sem acento. Na chamada, a ordem é mês antes de ano: `calcularConsumoPeriodo(meses, anos, consumos, n, mesIni, anoIni, mesFim, anoFim)`. Com `%d` no lugar de `%02d` sai `1/2026`, que não é igual ao PDF.
