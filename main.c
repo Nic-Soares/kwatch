@@ -8,9 +8,9 @@
 
 int main ()
 {
-  int ids[MAX]; int unidadesIds[MAX]; int meses[MAX]; int anos[MAX]; float consumos[MAX]; int unidadeIdsCatalogo[MAX]; char descricoes[MAX][50];
+  int ids[MAX]; int unidadeIds[MAX]; int meses[MAX]; int anos[MAX]; float consumos[MAX]; int unidadeIdsCatalogo[MAX]; char descricoes[MAX][50];
 
-  int n = carregarLeituras("leituras.txt", ids, unidadesIds, meses, anos, consumos, MAX);
+  int n = carregarLeituras("leituras.txt", ids, unidadeIds, meses, anos, consumos, MAX);
 
   if (n == -1)
   {
@@ -53,15 +53,15 @@ int main ()
           int alg;
           scanf("%d", &alg);
           switch (alg) {
-            case 1: bubbleSortLeituraPorId(ids, unidadesIds, meses, anos, consumos, n);
+            case 1: bubbleSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, n);
               break;
-            case 2: insertionSortLeituraPorId(ids, unidadesIds, meses, anos, consumos, n);
+            case 2: insertionSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, n);
               break;
-            case 3: selectionSortLeituraPorId(ids, unidadesIds, meses, anos, consumos, n);
+            case 3: selectionSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, n);
               break;
-            case 4: quickSortLeituraPorId(ids, unidadesIds, meses, anos, consumos, 0, n - 1);
+            case 4: quickSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);
               break;
-            case 5: mergeSortLeituraPorId(ids, unidadesIds, meses, anos, consumos, 0, n - 1);
+            case 5: mergeSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);
               break;
           }
           ordenado = 1;
@@ -70,11 +70,50 @@ int main ()
         printf("ID | Unidade | Descricao | Mes | Ano | Consumo (kWh)\n");
         printf("-----------------------------------------------------------------------\n");
         for (int i = 0; i < n; i++) {
-          int pos = buscaLinear(unidadeIdsCatalogo, nUnidade, unidadesIds[i]); 
-          printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadesIds[i], descricoes[pos], meses[i], anos[i], consumos[i]);
+          int pos = buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[i]); 
+          printf("%d | %d | %s | %d | %d | %.2f\n", ids[i], unidadeIds[i], descricoes[pos], meses[i], anos[i], consumos[i]);
         }
         break;             // sai do switch; sem ele, roda o case de baixo também
+        
       case 2:
+        printf("Digite o ID da leitura:");
+        int idProcurado; int busca; int pos;
+        scanf("%d", &idProcurado);
+
+        printf("Escolha o algoritmo de busca:\n");
+        printf("1. Busca linear\n");
+        printf("2. Busca binaria\n");
+        printf("Opcao:");
+        scanf("%d", &busca);
+        
+        switch (busca) {
+          case 1:
+            pos = buscaLinear(ids, n, idProcurado);
+            break;
+          case 2:
+            if (ordenado == 0) {
+              quickSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, n - 1);
+              ordenado = 1;
+            }
+            pos = buscaBinaria(ids, n, idProcurado);
+            break;
+        }
+
+        if (pos != -1) {
+          int posDesc = buscaLinear(unidadeIdsCatalogo, nUnidade, unidadeIds[pos]);
+          
+          printf("Leitura encontrada:\n");
+          printf("ID Leitura: %d\n", ids[pos]);
+          printf("Unidade: %d\n", unidadeIds[pos]);
+          printf("Descricao: %s\n", descricoes[posDesc]);
+          printf("Mes: %d\n", meses[pos]);
+          printf("Ano: %d\n", anos[pos]);
+          printf("Consumo: %.2f kWh\n", consumos[pos]);
+          
+        } else {
+          printf("Leiura nao encontrada.\n");
+        }
+        
         break;
       case 3:
         break;
